@@ -52,9 +52,12 @@ export function Relevant(props) {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/relevantUser", {
-          relevantUsername: state.url[0].username,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/relevantUser",
+          {
+            relevantUsername: state.url[0].username,
+          }
+        );
 
         dispatch({ type: "SET_RELEVANT_USER", payload: result.data });
 
@@ -74,7 +77,7 @@ export function Relevant(props) {
   }
 
   //url for profilepic
-  const profilePic = `http://localhost:3000/img/${
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
     state.url[0] && state.url[0].username
   }? ${Date.now()}`;
 

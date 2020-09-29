@@ -59,7 +59,7 @@ export function Tweets() {
   dayjs.extend(relativeTime);
 
   //url for profilepic
-  const profilePic = `http://localhost:3000/img/${
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
     state.url[0] && state.url[0].username
   }? ${Date.now()}`;
 
@@ -88,7 +88,7 @@ export function Tweets() {
             avatar={
               <Avatar component="span">
                 <img
-                  src={`http://localhost:3000/img/${
+                  src={`https://socialmedia-server.herokuapp.com/img/${
                     tweet.username
                   }? ${Date.now()}`}
                   style={{ width: "150%", objectFit: "cover" }}

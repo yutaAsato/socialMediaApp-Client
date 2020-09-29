@@ -94,10 +94,13 @@ export function LogIn(props) {
     e.preventDefault();
     const loginUser = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/login", {
-          email: email,
-          password: password,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/login",
+          {
+            email: email,
+            password: password,
+          }
+        );
 
         const token = `Bearer ${result.data}`;
         localStorage.setItem("jwt", token);

@@ -72,11 +72,14 @@ export function EditProfile(props) {
 
     const fetchData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/editDetails", {
-          bio: bio,
-          website: website,
-          location: location,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/editDetails",
+          {
+            bio: bio,
+            website: website,
+            location: location,
+          }
+        );
 
         dispatch({ type: "SET_USER", payload: result.data });
       } catch {
@@ -89,9 +92,12 @@ export function EditProfile(props) {
     //relevantuser state needs to update after so UserProfile has access to new userDetails
     const fetchRelevant = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/relevantUser", {
-          relevantUsername: state.url[0].username,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/relevantUser",
+          {
+            relevantUsername: state.url[0].username,
+          }
+        );
 
         dispatch({ type: "SET_RELEVANT_USER", payload: result.data });
       } catch {
@@ -136,13 +142,13 @@ export function EditProfile(props) {
     const uploadImage = async () => {
       try {
         const result = await axios.post(
-          "http://localhost:3000/upload",
+          "https://socialmedia-server.herokuapp.com/upload",
           formData
         );
 
         dispatch({
           type: "SET_RELEVANT_USER_IMAGE",
-          payload: `http://localhost:3000/img/${
+          payload: `https://socialmedia-server.herokuapp.com/img/${
             state.url[0] && state.url[0].username
           }`,
         });
@@ -155,7 +161,7 @@ export function EditProfile(props) {
   }
 
   //url for profilepic
-  const profilePic = `http://localhost:3000/img/${
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
     state.url[0] && state.url[0].username
   }? ${Date.now()}`;
 

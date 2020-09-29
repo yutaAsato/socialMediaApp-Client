@@ -111,7 +111,7 @@ export function Navigations(props) {
     const postData = async () => {
       try {
         const result = await axios.post(
-          "http://localhost:3000/markNotifications",
+          "https://socialmedia-server.herokuapp.com/markNotifications",
           {
             unreadNotificationId: unreadNotificationsId,
           }
@@ -131,7 +131,9 @@ export function Navigations(props) {
   function getLoggedUser() {
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/user");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
         dispatch({ type: "SET_USER", payload: result.data });
       } catch {
         console.log("something went wrong");
@@ -317,7 +319,7 @@ export function Navigations(props) {
             <ListItemAvatar>
               <Avatar component="span">
                 <img
-                  src={`http://localhost:3000/img/${
+                  src={`https://socialmedia-server.herokuapp.com/img/${
                     state.loggedUser && state.loggedUser.username
                   }? ${Date.now()}`}
                   style={{ width: "150%", objectFit: "cover" }}

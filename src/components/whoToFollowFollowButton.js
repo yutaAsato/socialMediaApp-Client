@@ -29,9 +29,12 @@ export function WtfFollowButton(props) {
   function handleUnfollow() {
     const fetchData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/unFollow", {
-          toUnfollowUsername: props.username,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/unFollow",
+          {
+            toUnfollowUsername: props.username,
+          }
+        );
         dispatch({ type: "SET_RELATIONSHIPS", payload: result.data });
       } catch {
         console.log("something went wrong");
@@ -45,9 +48,12 @@ export function WtfFollowButton(props) {
   function handleFollow() {
     const fetchData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/follow", {
-          toFollowUsername: props.username,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/follow",
+          {
+            toFollowUsername: props.username,
+          }
+        );
         dispatch({ type: "SET_RELATIONSHIPS", payload: result.data });
         postNotification();
       } catch {
@@ -62,11 +68,14 @@ export function WtfFollowButton(props) {
   function postNotification() {
     const postData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/notifications", {
-          sender: state.loggedUser.username,
-          recipient: props.username,
-          type: "followed",
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/notifications",
+          {
+            sender: state.loggedUser.username,
+            recipient: props.username,
+            type: "followed",
+          }
+        );
         console.log("posted notifications");
       } catch {
         console.log("something went wrong");

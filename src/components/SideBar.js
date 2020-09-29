@@ -24,7 +24,9 @@ export function SideBar(props) {
 
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/whoToFollow");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/whoToFollow"
+        );
         dispatch({
           type: "SET_WHO_TO_FOLLOW",
           payload: result.data,
@@ -44,7 +46,9 @@ export function SideBar(props) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/user");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
         dispatch({ type: "SET_USER", payload: result.data });
         dispatch({
           type: "SET_RELATIONSHIPS",

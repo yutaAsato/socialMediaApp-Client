@@ -67,9 +67,12 @@ export function HomePostTweet() {
   function handlePostTweet() {
     const postTweet = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/postTweet", {
-          content: tweet,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/postTweet",
+          {
+            content: tweet,
+          }
+        );
         console.log("posted tweet");
       } catch {
         console.log("cannot post tweet");
@@ -90,7 +93,7 @@ export function HomePostTweet() {
         <ListItem>
           <Avatar component="span">
             <img
-              src={`http://localhost:3000/img/${
+              src={`https://socialmedia-server.herokuapp.com/img/${
                 state.loggedUser && state.loggedUser.username
               }? ${Date.now()}`}
               style={{ width: "150%", objectFit: "cover" }}

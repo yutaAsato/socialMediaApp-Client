@@ -22,7 +22,9 @@ export function HomeTweets() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/followTweets");
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/followTweets"
+        );
 
         dispatch({ type: "SET_TWEETS", payload: result.data.tweets });
         dispatch({ type: "SET_LIKES", payload: result.data.likes });

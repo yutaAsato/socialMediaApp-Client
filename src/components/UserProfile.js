@@ -60,7 +60,7 @@ export function UserProfile(props) {
     const fetchData = async () => {
       try {
         const result = await axios.post(
-          "http://localhost:3000/relevantTweets",
+          "https://socialmedia-server.herokuapp.com/relevantTweets",
           { relevantUsername: props.match.params.username }
         );
         //type = set_tweets to clear the tweets state with users tweets, on tweetdetails type is set_user_tweets
@@ -77,7 +77,9 @@ export function UserProfile(props) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/user");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
         dispatch({ type: "SET_USER", payload: result.data });
         dispatch({
           type: "SET_RELATIONSHIPS",
@@ -97,9 +99,12 @@ export function UserProfile(props) {
     // setLoading(true);
     const fetchData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/relevantUser", {
-          relevantUsername: state.url[0].username,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/relevantUser",
+          {
+            relevantUsername: state.url[0].username,
+          }
+        );
 
         dispatch({ type: "SET_RELEVANT_USER", payload: result.data });
       } catch {
@@ -115,7 +120,7 @@ export function UserProfile(props) {
     const fetchData = async () => {
       try {
         const result = await axios.post(
-          "http://localhost:3000/relevantRelationships",
+          "https://socialmedia-server.herokuapp.com/relevantRelationships",
           {
             relevantUser: props.match.params.username,
           }
@@ -156,7 +161,7 @@ export function UserProfile(props) {
 
   ///---
   //url for profilepic
-  const profilePic = `http://localhost:3000/img/${
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
     state.url[0] && state.url[0].username
   }? ${Date.now()}`;
 
@@ -169,8 +174,8 @@ export function UserProfile(props) {
         <CardMedia
           key={state}
           className={classes.media}
-          // image={"http://localhost:3000/img/bison"}
-          image={`http://localhost:3000/img/${
+          // image={"https://socialmedia-server.herokuapp.com/img/bison"}
+          image={`https://socialmedia-server.herokuapp.com/img/${
             state.url[0] && state.url[0].username
           }? ${Date.now()}`}
           title="user img"

@@ -58,7 +58,7 @@ export function WhoToFollow(props) {
             <ListItemAvatar>
               <Avatar component="span">
                 <img
-                  src={`http://localhost:3000/img/${
+                  src={`https://socialmedia-server.herokuapp.com/img/${
                     user.username
                   }? ${Date.now()}`}
                   style={{ width: "100%", objectFit: "cover" }}

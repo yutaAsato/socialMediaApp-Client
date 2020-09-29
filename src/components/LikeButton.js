@@ -36,10 +36,15 @@ export function LikeButton(props) {
   function unlikePost() {
     const fetchData = async () => {
       try {
-        await axios.post("http://localhost:3000/tweet/:tweetId/unlike", {
-          tweetId: props.tweetId,
-        });
-        const likes = await axios.post("http://localhost:3000/followTweets");
+        await axios.post(
+          "https://socialmedia-server.herokuapp.com/tweet/:tweetId/unlike",
+          {
+            tweetId: props.tweetId,
+          }
+        );
+        const likes = await axios.post(
+          "https://socialmedia-server.herokuapp.com/followTweets"
+        );
         dispatch({ type: "SET_LIKES", payload: likes.data.likes });
       } catch {
         console.log("something went wrong");
@@ -53,10 +58,15 @@ export function LikeButton(props) {
   function likePost() {
     const fetchData = async () => {
       try {
-        await axios.post("http://localhost:3000/tweet/:tweetId/like", {
-          tweetId: props.tweetId,
-        });
-        const likes = await axios.post("http://localhost:3000/followTweets");
+        await axios.post(
+          "https://socialmedia-server.herokuapp.com/tweet/:tweetId/like",
+          {
+            tweetId: props.tweetId,
+          }
+        );
+        const likes = await axios.post(
+          "https://socialmedia-server.herokuapp.com/followTweets"
+        );
         dispatch({ type: "SET_LIKES", payload: likes.data.likes });
 
         //
@@ -86,12 +96,15 @@ export function LikeButton(props) {
   function postNotification() {
     const postData = async () => {
       try {
-        await axios.post("http://localhost:3000/notifications", {
-          sender: state.loggedUser.username,
-          recipient: user,
-          type: "liked",
-          tweetId: postId,
-        });
+        await axios.post(
+          "https://socialmedia-server.herokuapp.com/notifications",
+          {
+            sender: state.loggedUser.username,
+            recipient: user,
+            type: "liked",
+            tweetId: postId,
+          }
+        );
         console.log("posted notifications");
       } catch {
         console.log("something went wrong");

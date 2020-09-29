@@ -30,7 +30,9 @@ export function DeleteButton(props) {
   function DeletePost() {
     const deletePost = async () => {
       try {
-        await axios.post(`http://localhost:3000/tweet/${postId}`);
+        await axios.post(
+          `https://socialmedia-server.herokuapp.com/tweet/${postId}`
+        );
         // dispatch({ type: "SET_USER", payload: result.data.user });
       } catch {
         console.log("something went wrong");

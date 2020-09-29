@@ -98,12 +98,15 @@ export function Register(props) {
 
     const registerUser = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/register", {
-          email: email,
-          username: username,
-          password: password,
-          confirmPassword: confirmPassword,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/register",
+          {
+            email: email,
+            username: username,
+            password: password,
+            confirmPassword: confirmPassword,
+          }
+        );
         const token = `Bearer ${result.data}`;
         localStorage.setItem("jwt", token);
         //redirects

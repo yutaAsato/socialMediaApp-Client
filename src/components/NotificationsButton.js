@@ -87,7 +87,7 @@ export function NotificationsButton() {
     const postData = async () => {
       try {
         const result = await axios.post(
-          "http://localhost:3000/markNotifications",
+          "https://socialmedia-server.herokuapp.com/markNotifications",
           {
             unreadNotificationId: unreadNotificationsId,
           }
@@ -107,7 +107,9 @@ export function NotificationsButton() {
   function getLoggedUser() {
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/user");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
         dispatch({ type: "SET_USER", payload: result.data });
       } catch {
         console.log("something went wrong");

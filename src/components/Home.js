@@ -44,7 +44,9 @@ export function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/user");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
         dispatch({ type: "SET_USER", payload: result.data });
         dispatch({
           type: "SET_RELATIONSHIPS",

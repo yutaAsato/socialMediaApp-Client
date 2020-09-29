@@ -72,7 +72,7 @@ export function Comments(props) {
     const postReply = async () => {
       try {
         const result = await axios.post(
-          `http://localhost:3000/tweet/${
+          `https://socialmedia-server.herokuapp.com/tweet/${
             state.url[0] && state.url[0].username
           }/${state.url[0] && state.url[0].tweetId}/${
             state.loggedUser && state.loggedUser.username
@@ -95,12 +95,15 @@ export function Comments(props) {
   function postNotification() {
     const postData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/notifications", {
-          sender: state.loggedUser.username,
-          recipient: state.relevantUser[0].username,
-          type: "commented",
-          tweetId: currentTweetId,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/notifications",
+          {
+            sender: state.loggedUser.username,
+            recipient: state.relevantUser[0].username,
+            type: "commented",
+            tweetId: currentTweetId,
+          }
+        );
         console.log("posted notifications");
       } catch {
         console.log("something went wrong");
@@ -113,7 +116,7 @@ export function Comments(props) {
   //--------------------------------------
 
   //url for profilepic
-  const profilePic = `http://localhost:3000/img/${
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
     state.loggedUser && state.loggedUser.username
   }? ${Date.now()}`;
 
@@ -138,7 +141,7 @@ export function Comments(props) {
           avatar={
             <Avatar>
               <img
-                src={`http://localhost:3000/img/${
+                src={`https://socialmedia-server.herokuapp.com/img/${
                   filteredTweets[0] && filteredTweets[0].username
                 }? ${Date.now()}`}
                 style={{ width: "100%", objectFit: "cover" }}

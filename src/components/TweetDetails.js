@@ -93,7 +93,7 @@ export function TweetDetails(props) {
     const fetchData = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:3000/comment/${props.match.params.username}/${props.match.params.tweetId}`
+          `https://socialmedia-server.herokuapp.com/comment/${props.match.params.username}/${props.match.params.tweetId}`
         );
 
         dispatch({ type: "SET_RELEVANT_COMMENTS", payload: result.data });
@@ -109,7 +109,9 @@ export function TweetDetails(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/user");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
 
         dispatch({ type: "SET_USER", payload: result.data });
       } catch {
@@ -124,7 +126,9 @@ export function TweetDetails(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/followTweets");
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/followTweets"
+        );
         dispatch({ type: "SET_TWEETS", payload: result.data.tweets });
         dispatch({ type: "SET_LIKES", payload: result.data.likes });
       } catch {
@@ -140,7 +144,9 @@ export function TweetDetails(props) {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const result = await axios.get("http://localhost:3000/userTweets");
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/userTweets"
+        );
 
         dispatch({ type: "SET_USER_TWEETS", payload: result.data });
         setLoading(false);
@@ -174,7 +180,7 @@ export function TweetDetails(props) {
   }
 
   //url for profilepic
-  const profilePic = `http://localhost:3000/img/${
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
     state.url[0] && state.url[0].username
   }? ${Date.now()}`;
 
@@ -257,7 +263,7 @@ export function TweetDetails(props) {
             <div style={{ paddingRight: "15px" }}>
               <Avatar component="span">
                 <img
-                  src={`http://localhost:3000/img/${
+                  src={`https://socialmedia-server.herokuapp.com/img/${
                     comment.senderusername
                   }? ${Date.now()}`}
                   style={{ width: "150%", objectFit: "cover" }}

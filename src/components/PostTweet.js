@@ -55,10 +55,13 @@ export function PostTweet() {
   function handlePostTweet() {
     const postTweet = async () => {
       try {
-        const result = await axios.post("http://localhost:3000/postTweet", {
-          content: tweet,
-          urlUser: state.url[0] && state.url[0].username,
-        });
+        const result = await axios.post(
+          "https://socialmedia-server.herokuapp.com/postTweet",
+          {
+            content: tweet,
+            urlUser: state.url[0] && state.url[0].username,
+          }
+        );
         dispatch({ type: "SET_TWEETS", payload: result.data });
         console.log("posted tweet");
       } catch {
@@ -72,7 +75,7 @@ export function PostTweet() {
   }
 
   //url for profilepic
-  const profilePic = `http://localhost:3000/img/${
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
     state.loggedUser && state.loggedUser.username
   }? ${Date.now()}`;
 
