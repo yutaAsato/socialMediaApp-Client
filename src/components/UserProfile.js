@@ -52,7 +52,7 @@ export function UserProfile(props) {
     setLoading(true);
 
     dispatch({ type: "URL_DATA", payload: props.match.params });
-  }, [props.match.params, props.match.params.username]);
+  }, [props.match.params]);
 
   //relevanttweets
   React.useEffect(() => {
