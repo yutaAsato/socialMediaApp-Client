@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useHistory, Link } from "react-router-dom";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
@@ -53,7 +52,7 @@ export function UserProfile(props) {
     setLoading(true);
 
     dispatch({ type: "URL_DATA", payload: props.match.params });
-  }, [props.match.params.username]);
+  }, [props.match.params, props.match.params.username]);
 
   //relevanttweets
   React.useEffect(() => {
@@ -113,7 +112,7 @@ export function UserProfile(props) {
     };
 
     fetchData();
-  }, [state.url[0]]);
+  }, [state.url]);
 
   //relevantRelationships (gets followers and follow counts)
   React.useEffect(() => {
@@ -185,6 +184,7 @@ export function UserProfile(props) {
 
           <Avatar component="span">
             <img
+              alt=""
               src={profilePic ? profilePic : null}
               style={{ width: "150%", objectFit: "cover" }}
             />
