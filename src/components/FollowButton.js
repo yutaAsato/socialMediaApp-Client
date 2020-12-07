@@ -3,10 +3,8 @@ import axios from "axios";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
-import { Avatar } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Container } from "@material-ui/core";
 
 export function FollowButton(props) {
   //--contextAPI--------
@@ -68,7 +66,7 @@ export function FollowButton(props) {
   function postNotification() {
     const postData = async () => {
       try {
-        const result = await axios.post(
+        await axios.post(
           "https://socialmedia-server.herokuapp.com/notifications",
           {
             sender: state.loggedUser.username,

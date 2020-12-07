@@ -53,7 +53,7 @@ export function HomePostTweet() {
   const classes = useStyles();
 
   //context
-  const [state, dispatch] = React.useContext(UserContext);
+  const [state] = React.useContext(UserContext);
 
   //local
   const [tweet, setTweet] = React.useState("");
@@ -67,12 +67,9 @@ export function HomePostTweet() {
   function handlePostTweet() {
     const postTweet = async () => {
       try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/postTweet",
-          {
-            content: tweet,
-          }
-        );
+        await axios.post("https://socialmedia-server.herokuapp.com/postTweet", {
+          content: tweet,
+        });
         console.log("posted tweet");
       } catch {
         console.log("cannot post tweet");
@@ -93,6 +90,7 @@ export function HomePostTweet() {
         <ListItem>
           <Avatar component="span">
             <img
+              alt=""
               src={`https://socialmedia-server.herokuapp.com/img/${
                 state.loggedUser && state.loggedUser.username
               }? ${Date.now()}`}

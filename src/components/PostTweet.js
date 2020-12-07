@@ -12,7 +12,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
@@ -20,18 +19,7 @@ import SendIcon from "@material-ui/icons/Send";
 
 //----------------------
 
-const useStyles = makeStyles((theme) => ({
-  dialogContainer: {
-    // display: "flex",
-    width: "500px",
-  },
-}));
-
-//----------------------------
-
 export function PostTweet() {
-  const classes = useStyles();
-
   //--contextAPI--------
   const [state, dispatch] = React.useContext(UserContext);
 
@@ -112,6 +100,7 @@ export function PostTweet() {
         <DialogContent>
           <Avatar>
             <img
+              alt=""
               src={profilePic ? profilePic : null}
               style={{ width: "100%", objectFit: "cover" }}
             />

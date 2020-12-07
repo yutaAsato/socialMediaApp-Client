@@ -6,12 +6,12 @@ import axios from "axios";
 import { UserContext } from "../contextAPI/userContext";
 
 //dayjs import
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 //mui
 import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+// import NotificationsIcon from "@material-ui/icons/Notifications";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitIcon from "@material-ui/icons/ExitToAppOutlined";
@@ -22,20 +22,18 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { Badge, MenuItem } from "@material-ui/core";
-import ChatIcon from "@material-ui/icons/Chat";
-import Star from "@material-ui/icons/Star";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+// import { Badge, MenuItem } from "@material-ui/core";
+// import ChatIcon from "@material-ui/icons/Chat";
+// import Star from "@material-ui/icons/Star";
+// import FavoriteIcon from "@material-ui/icons/Favorite";
 
 //components
 import { PostTweet } from "./PostTweet";
 import { NotificationsButton } from "./NotificationsButton";
 
 //---------------------------------------
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,14 +59,8 @@ const useStyles = makeStyles((theme) => ({
 export function Navigations(props) {
   const classes = useStyles();
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
   //menu state
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  // const [, setAnchorEl] = React.useState(null);
 
   //--contextAPI--------
   const [state, dispatch] = useContext(UserContext);
@@ -89,172 +81,149 @@ export function Navigations(props) {
 
   //--------------------------------
 
-  //handleOpen
-  function handleOpen(event) {
-    setAnchorEl(event.target);
-  }
-
-  //handleClsoe
-  function handleClose() {
-    setAnchorEl(null);
-
-    //call getUser to update marked notifications
-    getLoggedUser();
-  }
-
   //menuOpen
-  function onMenuOpened() {
-    let unreadNotificationsId = state.loggedUser.notifications
-      .filter((not) => !not.read)
-      .map((not) => not.id);
+  // function onMenuOpened() {
+  //   let unreadNotificationsId = state.loggedUser.notifications
+  //     .filter((not) => !not.read)
+  //     .map((not) => not.id);
 
-    const postData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/markNotifications",
-          {
-            unreadNotificationId: unreadNotificationsId,
-          }
-        );
+  //   const postData = async () => {
+  //     try {
+  //       const result = await axios.post(
+  //         "https://socialmedia-server.herokuapp.com/markNotifications",
+  //         {
+  //           unreadNotificationId: unreadNotificationsId,
+  //         }
+  //       );
 
-        // getLoggedUser();
-        console.log("updatednotifications");
-      } catch {
-        console.log("something went wrong");
-      }
-    };
+  //       // getLoggedUser();
+  //       console.log("updatednotifications");
+  //     } catch {
+  //       console.log("something went wrong");
+  //     }
+  //   };
 
-    postData();
-  }
+  //   postData();
+  // }
 
   //getUser
-  function getLoggedUser() {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(
-          "https://socialmedia-server.herokuapp.com/user"
-        );
-        dispatch({ type: "SET_USER", payload: result.data });
-      } catch {
-        console.log("something went wrong");
-      }
-    };
+  // function getLoggedUser() {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await axios.get(
+  //         "https://socialmedia-server.herokuapp.com/user"
+  //       );
+  //       dispatch({ type: "SET_USER", payload: result.data });
+  //     } catch {
+  //       console.log("something went wrong");
+  //     }
+  //   };
 
-    fetchData();
-  }
-
-  //sort tweets by created_at
-  // let orderedTweets;
-  // if (state.loggedUser.notifications[0]) {
-  //   orderedTweets = state.tweets.sort(function compare(a, b) {
-  //     var dateA = new Date(a.created_at);
-  //     var dateB = new Date(b.created_at);
-  //     return dateB - dateA;
-  //   });
+  //   fetchData();
   // }
 
   //---------------------------------
-  let notificationIcon;
+  // let notificationIcon;
 
-  if (
-    state.loggedUser.notifications &&
-    state.loggedUser.notifications.length > 0
-  ) {
-    state.loggedUser.notifications.filter((not) => not.read === false).length >
-    0
-      ? (notificationIcon = (
-          <Badge
-            badgeContent={
-              state.loggedUser.notifications.filter((not) => not.read === false)
-                .length
-            }
-            color="secondary"
-          >
-            <NotificationsIcon />
-          </Badge>
-        ))
-      : (notificationIcon = <NotificationsIcon />);
-  } else {
-    notificationIcon = <NotificationsIcon />;
-  }
+  // if (
+  //   state.loggedUser.notifications &&
+  //   state.loggedUser.notifications.length > 0
+  // ) {
+  //   state.loggedUser.notifications.filter((not) => not.read === false).length >
+  //   0
+  //     ? (notificationIcon = (
+  //         <Badge
+  //           badgeContent={
+  //             state.loggedUser.notifications.filter((not) => not.read === false)
+  //               .length
+  //           }
+  //           color="secondary"
+  //         >
+  //           <NotificationsIcon />
+  //         </Badge>
+  //       ))
+  //     : (notificationIcon = <NotificationsIcon />);
+  // } else {
+  //   notificationIcon = <NotificationsIcon />;
+  // }
 
-  //notificationsMarkup
-  //
-  let notificationsMarkup =
-    state.loggedUser.notifications &&
-    state.loggedUser.notifications.length > 0 ? (
-      state.loggedUser.notifications.map((not) => {
-        let verb;
-        if (not.type === "liked") {
-          verb = "liked";
-        } else if (not.type === "commented") {
-          verb = "commented";
-        } else if (not.type === "followed") {
-          verb = "followed";
-        }
+  // //notificationsMarkup
+  // //
+  // let notificationsMarkup =
+  //   state.loggedUser.notifications &&
+  //   state.loggedUser.notifications.length > 0 ? (
+  //     state.loggedUser.notifications.map((not) => {
+  //       let verb;
+  //       if (not.type === "liked") {
+  //         verb = "liked";
+  //       } else if (not.type === "commented") {
+  //         verb = "commented";
+  //       } else if (not.type === "followed") {
+  //         verb = "followed";
+  //       }
 
-        const time = dayjs(not.created_at).fromNow();
-        const iconColor = not.read ? "primary" : "secondary";
+  //       const time = dayjs(not.created_at).fromNow();
+  //       const iconColor = not.read ? "primary" : "secondary";
 
-        let icon;
-        if (not.type === "liked") {
-          icon = <FavoriteIcon color={iconColor} style={{ marginRight: 10 }} />;
-        } else if (not.type === "commented") {
-          icon = <ChatIcon color={iconColor} style={{ marginRight: 10 }} />;
-        } else {
-          icon = <Star color={iconColor} style={{ marginRight: 10 }} />;
-        }
+  //       let icon;
+  //       if (not.type === "liked") {
+  //         icon = <FavoriteIcon color={iconColor} style={{ marginRight: 10 }} />;
+  //       } else if (not.type === "commented") {
+  //         icon = <ChatIcon color={iconColor} style={{ marginRight: 10 }} />;
+  //       } else {
+  //         icon = <Star color={iconColor} style={{ marginRight: 10 }} />;
+  //       }
 
-        //creates the 'return outPut' inside  the map() 'notificationsMarkup'
-        let outPut;
-        if (not.type === "liked") {
-          outPut = (
-            <MenuItem key={not.created_at} onClick={handleClose}>
-              {icon}
-              <Typography
-                component={Link}
-                color="primary"
-                variant="body1"
-                to={`/${not.recipient}/${not.tweetid}`}
-              >
-                {not.sender} {verb} your post {time}
-              </Typography>
-            </MenuItem>
-          );
-        } else if (not.type === "commented") {
-          outPut = (
-            <MenuItem key={not.created_at} onClick={handleClose}>
-              {icon}
-              <Typography
-                component={Link}
-                color="primary"
-                variant="body1"
-                to={`/${not.recipient}/${not.tweetid}`}
-              >
-                {not.sender} {verb} your post {time}
-              </Typography>
-            </MenuItem>
-          );
-        } else {
-          outPut = (
-            <MenuItem key={not.created_at} onClick={handleClose}>
-              {icon}
-              <Typography
-                component={Link}
-                color="primary"
-                variant="body1"
-                to={`/${not.sender}`}
-              >
-                {not.sender} {verb} you {time}
-              </Typography>
-            </MenuItem>
-          );
-        }
-        return outPut;
-      })
-    ) : (
-      <MenuItem onClick={handleClose}>You have no notifications yet</MenuItem>
-    );
+  //       //creates the 'return outPut' inside  the map() 'notificationsMarkup'
+  //       let outPut;
+  //       if (not.type === "liked") {
+  //         outPut = (
+  //           <MenuItem key={not.created_at} onClick={handleClose}>
+  //             {icon}
+  //             <Typography
+  //               component={Link}
+  //               color="primary"
+  //               variant="body1"
+  //               to={`/${not.recipient}/${not.tweetid}`}
+  //             >
+  //               {not.sender} {verb} your post {time}
+  //             </Typography>
+  //           </MenuItem>
+  //         );
+  //       } else if (not.type === "commented") {
+  //         outPut = (
+  //           <MenuItem key={not.created_at} onClick={handleClose}>
+  //             {icon}
+  //             <Typography
+  //               component={Link}
+  //               color="primary"
+  //               variant="body1"
+  //               to={`/${not.recipient}/${not.tweetid}`}
+  //             >
+  //               {not.sender} {verb} your post {time}
+  //             </Typography>
+  //           </MenuItem>
+  //         );
+  //       } else {
+  //         outPut = (
+  //           <MenuItem key={not.created_at} onClick={handleClose}>
+  //             {icon}
+  //             <Typography
+  //               component={Link}
+  //               color="primary"
+  //               variant="body1"
+  //               to={`/${not.sender}`}
+  //             >
+  //               {not.sender} {verb} you {time}
+  //             </Typography>
+  //           </MenuItem>
+  //         );
+  //       }
+  //       return outPut;
+  //     })
+  //   ) : (
+  //     <MenuItem onClick={handleClose}>You have no notifications yet</MenuItem>
+  //   );
 
   //--------------------------------------------------------------------
   let drawer;
@@ -319,6 +288,7 @@ export function Navigations(props) {
             <ListItemAvatar>
               <Avatar component="span">
                 <img
+                  alt=""
                   src={`https://socialmedia-server.herokuapp.com/img/${
                     state.loggedUser && state.loggedUser.username
                   }? ${Date.now()}`}
@@ -414,9 +384,6 @@ export function Navigations(props) {
       </div>
     );
   }
-
-  // const container =
-  //   window !== undefined ? () => window().document.body : undefined;
 
   return <div className={classes.drawer}>{drawer}</div>;
 }

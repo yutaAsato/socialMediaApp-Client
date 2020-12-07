@@ -1,9 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
-
-//contextAPI
-import { UserContext } from "../contextAPI/userContext";
 
 //mui
 import Avatar from "@material-ui/core/Avatar";
@@ -73,9 +69,6 @@ export function Register(props) {
       general: "",
     },
   });
-
-  //--contextAPI--------
-  const [state, dispatch] = useContext(UserContext);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);

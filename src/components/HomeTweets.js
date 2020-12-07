@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
@@ -12,7 +11,7 @@ import { Tweets } from "./Tweets";
 
 export function HomeTweets() {
   //--contextAPI--------
-  const [state, dispatch] = useContext(UserContext);
+  const [, dispatch] = useContext(UserContext);
 
   //local (prevent dom loading until state updated)
   const [loading, setLoading] = React.useState(false);
@@ -36,7 +35,7 @@ export function HomeTweets() {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div style={{ paddingTop: "10px" }}>{!loading ? <Tweets /> : null}</div>

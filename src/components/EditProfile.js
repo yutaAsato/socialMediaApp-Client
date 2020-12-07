@@ -64,7 +64,11 @@ export function EditProfile(props) {
     setBio(state.loggedUser.bio);
     setWebsite(state.loggedUser.website);
     setLocation(state.loggedUser.location);
-  }, []);
+  }, [
+    state.loggedUser.bio,
+    state.loggedUser.location,
+    state.loggedUser.website,
+  ]);
 
   //editDetails
   function handleSubmitForm() {
@@ -141,7 +145,7 @@ export function EditProfile(props) {
     //upload image
     const uploadImage = async () => {
       try {
-        const result = await axios.post(
+        await axios.post(
           "https://socialmedia-server.herokuapp.com/upload",
           formData
         );
@@ -191,6 +195,7 @@ export function EditProfile(props) {
           <div className="image-wrapper">
             <Avatar component="span">
               <img
+                alt=""
                 src={profilePic ? profilePic : null}
                 style={{ width: "150%", objectFit: "cover" }}
               />

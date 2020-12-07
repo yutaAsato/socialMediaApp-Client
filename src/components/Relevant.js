@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
@@ -11,11 +11,9 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
-import { Container } from "@material-ui/core";
 
 //components
 import { FollowButton } from "./FollowButton";
@@ -69,12 +67,7 @@ export function Relevant(props) {
     };
 
     fetchData();
-  }, [state.url]);
-
-  //
-  function handleClick() {
-    console.log("hello");
-  }
+  }, [dispatch, state.url]);
 
   //url for profilepic
   const profilePic = `https://socialmedia-server.herokuapp.com/img/${
@@ -104,6 +97,7 @@ export function Relevant(props) {
           <div style={{ paddingRight: "15px", paddingTop: "6px" }}>
             <Avatar component="span">
               <img
+                alt=""
                 src={profilePic ? profilePic : null}
                 style={{ width: "100%", objectFit: "cover" }}
               />

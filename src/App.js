@@ -7,9 +7,6 @@ import {
   Redirect,
 } from "react-router-dom";
 
-//contextAPI
-import { UserContext } from "./contextAPI/userContext";
-
 //components
 import { Home } from "./components/Home";
 import { LogIn } from "./components/Login";
@@ -24,7 +21,6 @@ import { NavigationBottom } from "./components/NavigationBottom";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
 
 //==========================================================
 
@@ -33,32 +29,6 @@ function App() {
     axios.defaults.headers.common["Authorization"] = localStorage.jwt;
     // window.location.href = "/";
   }
-
-  //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
-
-  const [user, setUser] = React.useState(false);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setUser(true);
-  };
-
-  console.log(state);
-
-  //==styles mui==========================
-
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      [theme.breakpoints.down("sm")]: {},
-      [theme.breakpoints.down("md")]: {},
-      [theme.breakpoints.up("lg")]: {},
-    },
-  }));
-
-  const classes = useStyles();
-
-  //===================================
 
   //responsive dewsign notes-- Double grid design, main grid split in 2 with navigation and main section,
   //navigation has another grid system with 3grids nested to get good alignment (to the right) when shrinking viewport.
@@ -123,9 +93,6 @@ export default App;
 
 ///protected route function
 function ProtectedRoute({ component: Component, user, ...rest }) {
-  //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
-
   return (
     <Route
       {...rest}

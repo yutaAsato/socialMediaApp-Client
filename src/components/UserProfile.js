@@ -52,7 +52,7 @@ export function UserProfile(props) {
     setLoading(true);
 
     dispatch({ type: "URL_DATA", payload: props.match.params });
-  }, [props.match.params]);
+  }, [dispatch, props.match.params, props.match.params.username]);
 
   //relevanttweets
   React.useEffect(() => {
@@ -70,7 +70,7 @@ export function UserProfile(props) {
     };
 
     fetchData();
-  }, [props.match.params.username]);
+  }, [dispatch, props.match.params.username]);
 
   //user
   React.useEffect(() => {
@@ -90,7 +90,7 @@ export function UserProfile(props) {
     };
 
     fetchData();
-  }, [props.match.params.username]);
+  }, [dispatch, props.match.params.username]);
 
   //relevantUser- relies on state.url set to be same as user in TweetDetails
   React.useEffect(() => {
@@ -112,7 +112,7 @@ export function UserProfile(props) {
     };
 
     fetchData();
-  }, [state.url]);
+  }, [dispatch, state.url]);
 
   //relevantRelationships (gets followers and follow counts)
   React.useEffect(() => {
@@ -133,7 +133,7 @@ export function UserProfile(props) {
     setLoading(false);
 
     fetchData();
-  }, [props.match.params.username]);
+  }, [dispatch, props.match.params.username]);
 
   //=================================================================================================
 

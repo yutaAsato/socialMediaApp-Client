@@ -1,6 +1,5 @@
 import React from "react";
-import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
@@ -41,10 +40,10 @@ export function WhoToFollow(props) {
   const classes = useStyles();
 
   //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
+  const [state] = React.useContext(UserContext);
 
   //local (prevent dom loading until state updated)
-  const [loading, setLoading] = React.useState(false);
+  const [loading] = React.useState(false);
 
   //markup
   let whoToFollow;
@@ -58,6 +57,7 @@ export function WhoToFollow(props) {
             <ListItemAvatar>
               <Avatar component="span">
                 <img
+                  alt=""
                   src={`https://socialmedia-server.herokuapp.com/img/${
                     user.username
                   }? ${Date.now()}`}

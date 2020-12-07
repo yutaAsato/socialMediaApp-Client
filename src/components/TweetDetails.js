@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
-import { withRouter } from "react-router";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -13,16 +12,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ChatIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import List from "@material-ui/core/List";
@@ -33,7 +28,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { LikeButton } from "./LikeButton";
 import { Comments } from "./Comments";
 import { DeleteButton } from "./DeleteButton";
-import { Container, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 
 //=========
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +81,7 @@ export function TweetDetails(props) {
   //sets url data to state so can access match.params in other componenents
   useEffect(() => {
     dispatch({ type: "URL_DATA", payload: props.match.params });
-  }, []);
+  }, [dispatch, props.match.params]);
 
   //relevantComments
   useEffect(() => {
@@ -103,7 +98,12 @@ export function TweetDetails(props) {
     };
 
     fetchData();
-  }, [state.tweets[0]]);
+  }, [
+    dispatch,
+    props.match.params.tweetId,
+    props.match.params.username,
+    // state.tweets[0],
+  ]);
 
   //user
   useEffect(() => {
@@ -120,7 +120,7 @@ export function TweetDetails(props) {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   //followtweets and likes
   useEffect(() => {
@@ -137,7 +137,7 @@ export function TweetDetails(props) {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   //userTweets
   useEffect(() => {
@@ -156,7 +156,7 @@ export function TweetDetails(props) {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   //===========================================
 
@@ -184,8 +184,6 @@ export function TweetDetails(props) {
     state.url[0] && state.url[0].username
   }? ${Date.now()}`;
 
-  console.log(filteredTweets);
-
   //markup
   if (filteredTweets && filteredTweets.length) {
     filteredTweets = (
@@ -194,6 +192,7 @@ export function TweetDetails(props) {
           avatar={
             <Avatar>
               <img
+                alt=""
                 src={profilePic ? profilePic : null}
                 style={{ width: "100%", objectFit: "cover" }}
               />
@@ -263,6 +262,7 @@ export function TweetDetails(props) {
             <div style={{ paddingRight: "15px" }}>
               <Avatar component="span">
                 <img
+                  alt=""
                   src={`https://socialmedia-server.herokuapp.com/img/${
                     comment.senderusername
                   }? ${Date.now()}`}

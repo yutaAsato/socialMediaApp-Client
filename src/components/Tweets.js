@@ -1,21 +1,16 @@
-import React, { useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 //mui
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+
 import Divider from "@material-ui/core/Divider";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ChatIcon from "@material-ui/icons/ChatBubbleOutline";
-import IconButton from "@material-ui/core/IconButton";
+
 import { Card, CardContent, CardActions, CardHeader } from "@material-ui/core";
 
 //contextAPI
@@ -24,7 +19,6 @@ import { UserContext } from "../contextAPI/userContext";
 //components
 import { LikeButton } from "./LikeButton";
 import { Comments } from "./Comments";
-import { DeleteButton } from "./DeleteButton";
 import { Container, Box } from "@material-ui/core";
 
 //==========================================
@@ -50,18 +44,10 @@ const useStyles = makeStyles((theme) => ({
 export function Tweets() {
   const classes = useStyles();
   //--contextAPI--------
-  const [state, dispatch] = useContext(UserContext);
-
-  //local (prevent dom loading until state updated)
-  const [loading, setLoading] = React.useState(false);
+  const [state] = useContext(UserContext);
 
   //dayjs extesnsion plug
   dayjs.extend(relativeTime);
-
-  //url for profilepic
-  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.url[0] && state.url[0].username
-  }? ${Date.now()}`;
 
   //sort tweets by created_at
   let orderedTweets;
@@ -88,6 +74,7 @@ export function Tweets() {
             avatar={
               <Avatar component="span">
                 <img
+                  alt=""
                   src={`https://socialmedia-server.herokuapp.com/img/${
                     tweet.username
                   }? ${Date.now()}`}
@@ -95,7 +82,6 @@ export function Tweets() {
                 />
               </Avatar>
             }
-            // titleTypographyProps={{ color: "pink" }}
             title={
               <Typography style={{ display: "flex" }}>
                 {tweet.username}

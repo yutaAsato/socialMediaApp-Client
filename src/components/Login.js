@@ -72,7 +72,7 @@ export function LogIn(props) {
   });
 
   //--contextAPI--------
-  const [state, dispatch] = useContext(UserContext);
+  const [, dispatch] = useContext(UserContext);
 
   //redirect
   if (localStorage.jwt) {

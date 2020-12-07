@@ -41,7 +41,7 @@ export function Comments(props) {
   dayjs.extend(relativeTime);
 
   //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
+  const [state] = React.useContext(UserContext);
 
   //local state
   const [open, setOpen] = React.useState(false);
@@ -71,7 +71,7 @@ export function Comments(props) {
   function handleComment() {
     const postReply = async () => {
       try {
-        const result = await axios.post(
+        await axios.post(
           `https://socialmedia-server.herokuapp.com/tweet/${
             state.url[0] && state.url[0].username
           }/${state.url[0] && state.url[0].tweetId}/${
@@ -95,7 +95,7 @@ export function Comments(props) {
   function postNotification() {
     const postData = async () => {
       try {
-        const result = await axios.post(
+        await axios.post(
           "https://socialmedia-server.herokuapp.com/notifications",
           {
             sender: state.loggedUser.username,
@@ -141,6 +141,7 @@ export function Comments(props) {
           avatar={
             <Avatar>
               <img
+                alt=""
                 src={`https://socialmedia-server.herokuapp.com/img/${
                   filteredTweets[0] && filteredTweets[0].username
                 }? ${Date.now()}`}
@@ -182,6 +183,7 @@ export function Comments(props) {
         <DialogContent>
           <Avatar>
             <img
+              alt=""
               src={profilePic ? profilePic : null}
               style={{ width: "100%", objectFit: "cover" }}
             />

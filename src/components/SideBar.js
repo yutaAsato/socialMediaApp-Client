@@ -40,7 +40,7 @@ export function SideBar(props) {
     };
 
     fetchData();
-  }, [state.auth]);
+  }, [dispatch, state.auth]);
 
   //user
   React.useEffect(() => {
@@ -60,7 +60,7 @@ export function SideBar(props) {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div style={{ paddingTop: "10px" }}>
