@@ -2,6 +2,9 @@ import React from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+//contextAPI
+import { UserContext } from "./contextAPI/userContext";
+
 //components
 import { Home } from "./components/Home";
 import { LogIn } from "./components/Login";
@@ -17,13 +20,36 @@ import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Container from "@material-ui/core/Container";
 
-function AuthenticatedApp({ state }) {
+function AuthenticatedApp() {
+  const [state, dispatch] = React.useContext(UserContext);
+
   console.log("AuthenticatedApp.js:", state);
 
   if (localStorage.jwt) {
     axios.defaults.headers.common["Authorization"] = localStorage.jwt;
     // window.location.href = "/";
   }
+
+  //User
+  React.useEffect(() => {
+    console.log("App- useEffect");
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
+        dispatch({ type: "SET_USER", payload: result.data });
+        dispatch({
+          type: "SET_RELATIONSHIPS",
+          payload: result.data.relationships,
+        });
+      } catch (err) {
+        console.error({ error: err.response });
+      }
+    };
+
+    fetchData();
+  }, []);
 
   //responsive dewsign notes-- Double grid design, main grid split in 2 with navigation and main section,
   //navigation has another grid system with 3grids nested to get good alignment (to the right) when shrinking viewport.
@@ -65,7 +91,7 @@ function AuthenticatedApp({ state }) {
 
                 <Hidden smDown>
                   <Grid item sm={false} md={4} lg={4}>
-                    <Route exact path={["/:username", "/:username/:id"]}>
+                    <Route exact path={["/:username", "/:username/:id", "/"]}>
                       <SideBar state={state} />
                     </Route>
                   </Grid>

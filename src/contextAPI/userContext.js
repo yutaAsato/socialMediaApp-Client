@@ -98,18 +98,6 @@ function dataReducer(state, action) {
 export function UserProvider(props) {
   const [state, dispatch] = React.useReducer(dataReducer, {
     loggedUser: null,
-    //  {
-
-    // username: "",
-    // email: "",
-    // userId: "",
-    // joined: "",
-    // bio: "",
-    // website: "",
-    // location: "",
-    // profilePic: "",
-    // notifications: [],
-    // },
     relationships: [],
     userTweets: [],
     tweets: [],

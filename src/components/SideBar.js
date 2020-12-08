@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { Relevant } from "./Relevant";
 import { WhoToFollow } from "./WhoToFollow";
 
-//if url in state has user data render <Relevant/> if not something else
 //==================================================================
 export function SideBar({ state }) {
   const { username: urlUser } = useParams();
@@ -13,7 +12,9 @@ export function SideBar({ state }) {
   if (state.loggedUser) {
     return (
       <div style={{ paddingTop: "10px" }}>
-        {urlUser !== state.loggedUser.username ? (
+        {!urlUser ? (
+          <WhoToFollow />
+        ) : urlUser !== state.loggedUser.username ? (
           <Relevant urlUser={urlUser} />
         ) : (
           <WhoToFollow />

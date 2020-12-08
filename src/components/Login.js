@@ -105,7 +105,7 @@ export function LogIn(props) {
         const token = `Bearer ${result.data}`;
         localStorage.setItem("jwt", token);
 
-        console.log("working here");
+        console.log("login success");
         dispatch({ type: "SET_AUTH", payload: true });
 
         // props.history.push("/");
