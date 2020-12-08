@@ -56,25 +56,21 @@ function AuthenticatedApp({ state }) {
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={8} lg={8}>
                   <Switch>
-                    <ProtectedRoute exact path="/" component={Home} />
+                    <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={LogIn} />
                     <Route exact path="/register" component={Register} />
-                    <ProtectedRoute
+                    <Route
                       exact
                       path="/:username/:tweetId"
                       component={TweetDetails}
                     />
-                    <ProtectedRoute
-                      exact
-                      path="/:username"
-                      component={UserProfile}
-                    />
+                    <Route exact path="/:username" component={UserProfile} />
                   </Switch>
                 </Grid>
 
                 <Hidden smDown>
                   <Grid item sm={false} md={4} lg={4}>
-                    <Route component={SideBar}></Route>
+                    {/* <Route component={SideBar}></Route> */}
                   </Grid>
                 </Hidden>
               </Grid>
@@ -92,26 +88,27 @@ function AuthenticatedApp({ state }) {
 export { AuthenticatedApp };
 
 ///protected route function
-function ProtectedRoute({ component: Component, user, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        if (localStorage.jwt) {
-          return <Component {...rest} {...props} />;
-        } else {
-          return (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: {
-                  from: props.location,
-                },
-              }}
-            />
-          );
-        }
-      }}
-    />
-  );
-}
+
+// function ProtectedRoute({ component: Component, user, ...rest }) {
+//   return (
+//     <Route
+//       {...rest}
+//       render={(props) => {
+//         if (localStorage.jwt) {
+//           return <Component {...rest} {...props} />;
+//         } else {
+//           return (
+//             <Redirect
+//               to={{
+//                 pathname: "/login",
+//                 state: {
+//                   from: props.location,
+//                 },
+//               }}
+//             />
+//           );
+//         }
+//       }}
+//     />
+//   );
+// }

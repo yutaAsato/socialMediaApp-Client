@@ -98,12 +98,7 @@ export function TweetDetails(props) {
     };
 
     fetchData();
-  }, [
-    dispatch,
-    props.match.params.tweetId,
-    props.match.params.username,
-    // state.tweets[0],
-  ]);
+  }, [dispatch, props.match.params.tweetId, props.match.params.username]);
 
   //user
   useEffect(() => {
