@@ -20,6 +20,11 @@ import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Container from "@material-ui/core/Container";
 
+//utils/hooks
+import { useClient } from "./utils/api-client";
+
+//-------------------------------------------------
+
 function AuthenticatedApp() {
   const [state, dispatch] = React.useContext(UserContext);
 
@@ -27,29 +32,24 @@ function AuthenticatedApp() {
 
   if (localStorage.jwt) {
     axios.defaults.headers.common["Authorization"] = localStorage.jwt;
-    // window.location.href = "/";
   }
+  const client = useClient();
 
   //User
   React.useEffect(() => {
-    console.log("App- useEffect");
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(
-          "https://socialmedia-server.herokuapp.com/user"
-        );
-        dispatch({ type: "SET_USER", payload: result.data });
+    console.log("AuthenticatedApp - useEffect");
+    client("user")
+      .then((data) => {
+        dispatch({ type: "SET_USER", payload: data });
         dispatch({
           type: "SET_RELATIONSHIPS",
-          payload: result.data.relationships,
+          payload: data.relationships,
         });
-      } catch (err) {
-        console.error({ error: err.response });
-      }
-    };
-
-    fetchData();
-  }, []);
+      })
+      .then((err) => {
+        console.error({ error: err });
+      });
+  }, [client, dispatch]);
 
   //responsive dewsign notes-- Double grid design, main grid split in 2 with navigation and main section,
   //navigation has another grid system with 3grids nested to get good alignment (to the right) when shrinking viewport.
@@ -109,29 +109,3 @@ function AuthenticatedApp() {
 }
 
 export { AuthenticatedApp };
-
-///protected route function
-
-// function ProtectedRoute({ component: Component, user, ...rest }) {
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) => {
-//         if (localStorage.jwt) {
-//           return <Component {...rest} {...props} />;
-//         } else {
-//           return (
-//             <Redirect
-//               to={{
-//                 pathname: "/login",
-//                 state: {
-//                   from: props.location,
-//                 },
-//               }}
-//             />
-//           );
-//         }
-//       }}
-//     />
-//   );
-// }

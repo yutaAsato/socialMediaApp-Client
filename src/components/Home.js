@@ -15,6 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 export function Home() {
   // console.log(useParams());
 
+  console.log("HOME");
   return (
     <div style={{ paddingTop: "10px" }}>
       <Card>

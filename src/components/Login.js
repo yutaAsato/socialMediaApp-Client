@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
@@ -19,6 +19,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+//utils/hooks
+import { useClient } from "../utils/api-client";
+
+//====================
 
 function Copyright() {
   return (
@@ -56,8 +61,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//------------------------------------
 export function LogIn(props) {
   const classes = useStyles();
+  let history = useHistory();
+  let client = useClient();
 
   //local state
   const [email, setEmail] = useState("");
@@ -75,9 +83,9 @@ export function LogIn(props) {
   const [, dispatch] = useContext(UserContext);
 
   //redirect
-  if (localStorage.jwt) {
-    return <Redirect to="/" />;
-  }
+  // if (localStorage.jwt) {
+  //   return <Redirect to="/" />;
+  // }
 
   //handlers
   const handleEmail = (e) => {
@@ -106,9 +114,9 @@ export function LogIn(props) {
         localStorage.setItem("jwt", token);
 
         console.log("login success");
-        dispatch({ type: "SET_AUTH", payload: true });
 
-        // props.history.push("/");
+        history.push("/");
+        dispatch({ type: "SET_AUTH", payload: true });
       } catch (err) {
         console.log("login failed");
         setErrors(err.response.data);
