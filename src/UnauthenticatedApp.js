@@ -1,20 +1,9 @@
 import React from "react";
-import axios from "axios";
-import {
-  Redirect,
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  //   Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-//components
-// import { Home } from "./components/Home";
 import { LogIn } from "./components/Login";
-// import { TweetDetails } from "./components/TweetDetails";
 import { Navigations } from "./components/Navigations";
-// import { UserProfile } from "./components/UserProfile";
-// import { SideBar } from "./components/SideBar";
+
 import { Register } from "./components/Register";
 import { NavigationBottom } from "./components/NavigationBottom";
 
@@ -23,10 +12,8 @@ import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Container from "@material-ui/core/Container";
 
-function UnauthenticatedApp({ state }) {
-  console.log("UnauthenticatedApp.js:", state);
-
-  React.useEffect(() => {});
+function UnauthenticatedApp() {
+  console.log("unAuthenticatedApp");
 
   return (
     <div className="App">
@@ -51,26 +38,13 @@ function UnauthenticatedApp({ state }) {
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={8} lg={8}>
                   <Switch>
-                    {/* <ProtectedRoute exact path="/" component={Home} /> */}
                     <Route exact path="/login" component={LogIn} />
                     <Route exact path="/register" component={Register} />
-                    {/* <ProtectedRoute
-                      exact
-                      path="/:username/:tweetId"
-                      component={TweetDetails}
-                    />
-                    <ProtectedRoute
-                      exact
-                      path="/:username"
-                      component={UserProfile}
-                    /> */}
                   </Switch>
                 </Grid>
 
                 <Hidden smDown>
-                  <Grid item sm={false} md={4} lg={4}>
-                    {/* <Route component={SideBar}></Route> */}
-                  </Grid>
+                  <Grid item sm={false} md={4} lg={4}></Grid>
                 </Hidden>
               </Grid>
             </Grid>
@@ -85,28 +59,3 @@ function UnauthenticatedApp({ state }) {
 }
 
 export { UnauthenticatedApp };
-
-///protected route function
-// function ProtectedRoute({ component: Component, user, ...rest }) {
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) => {
-//         if (localStorage.jwt) {
-//           return <Component {...rest} {...props} />;
-//         } else {
-//           return (
-//             <Redirect
-//               to={{
-//                 pathname: "/login",
-//                 state: {
-//                   from: props.location,
-//                 },
-//               }}
-//             />
-//           );
-//         }
-//       }}
-//     />
-//   );
-// }

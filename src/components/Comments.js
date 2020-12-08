@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 //----------------------------
 
-export function Comments(props) {
+export function Comments({ currentTweetId, currentTweetUsername }) {
   const classes = useStyles();
 
   //dayjs extesnsion plug
@@ -46,11 +46,6 @@ export function Comments(props) {
   //local state
   const [open, setOpen] = React.useState(false);
   const [reply, setReply] = React.useState("");
-
-  //get tweetId from url
-  const currentTweetId = state.url[0] && state.url[0].tweetId;
-  //get tweet username from url
-  const currentTweetUsername = state.url[0] && state.url[0].username;
 
   //eventHandlers
   const handleClickOpen = () => {
@@ -72,9 +67,7 @@ export function Comments(props) {
     const postReply = async () => {
       try {
         await axios.post(
-          `https://socialmedia-server.herokuapp.com/tweet/${
-            state.url[0] && state.url[0].username
-          }/${state.url[0] && state.url[0].tweetId}/${
+          `https://socialmedia-server.herokuapp.com/tweet/${currentTweetUsername}/${currentTweetId}/${
             state.loggedUser && state.loggedUser.username
           }/comment`,
           {

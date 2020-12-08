@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 //---------------------
 
 export function TweetDetails(props) {
+  const { username: urlUser, tweetId } = useParams();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -78,12 +79,7 @@ export function TweetDetails(props) {
     setExpanded(!expanded);
   };
 
-  //sets url data to state so can access match.params in other componenents
-  useEffect(() => {
-    dispatch({ type: "URL_DATA", payload: props.match.params });
-  }, [dispatch, props.match.params]);
-
-  //relevantComments
+  // //relevantComments
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -100,7 +96,7 @@ export function TweetDetails(props) {
     fetchData();
   }, [dispatch, props.match.params.tweetId, props.match.params.username]);
 
-  //user
+  // //user
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -117,7 +113,7 @@ export function TweetDetails(props) {
     fetchData();
   }, [dispatch]);
 
-  //followtweets and likes
+  // //followtweets and likes
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -175,9 +171,7 @@ export function TweetDetails(props) {
   }
 
   //url for profilepic
-  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.url[0] && state.url[0].username
-  }? ${Date.now()}`;
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${urlUser}? ${Date.now()}`;
 
   //markup
   if (filteredTweets && filteredTweets.length) {
@@ -215,10 +209,7 @@ export function TweetDetails(props) {
           </Box>
           <Box>
             {filteredTweets[0] && filteredTweets[0].commentcount}
-            <Comments
-              currentTweetId={currentTweetId}
-              currentTweetUsername={currentTweetUsername}
-            />
+            <Comments currentTweetId={tweetId} currentTweetUsername={urlUser} />
           </Box>
           <Box>
             {currentTweetUsername === state.loggedUser.username ? (
@@ -279,10 +270,11 @@ export function TweetDetails(props) {
                   <Typography>
                     {"Replying to"}
                     <Link
-                      to={`/${state.url[0] && state.url[0].username}`}
+                      to={`/${urlUser}`}
                       style={{ textDecoration: "none", color: "#87CEFA" }}
                     >
-                      {` ${state.url[0] && state.url[0].username}`}{" "}
+                      {" "}
+                      {urlUser}{" "}
                     </Link>
                   </Typography>
                   <Typography

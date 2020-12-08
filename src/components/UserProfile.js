@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 
+import { useParams } from "react-router-dom";
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
 
@@ -9,10 +10,8 @@ import { UserContext } from "../contextAPI/userContext";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import LocationIcon from "@material-ui/icons/LocationOnOutlined";
@@ -37,6 +36,10 @@ const useStyles = makeStyles({
 });
 
 export function UserProfile(props) {
+  const { username: urlUser } = useParams();
+
+  console.log(urlUser);
+
   const classes = useStyles();
   //--contextAPI--------
   const [state, dispatch] = React.useContext(UserContext);
@@ -45,14 +48,6 @@ export function UserProfile(props) {
   const [loading, setLoading] = React.useState(false);
 
   //====================================================
-
-  //sets url data to state so can access match.params in other componenents
-  React.useEffect(() => {
-    //loading
-    setLoading(true);
-
-    dispatch({ type: "URL_DATA", payload: props.match.params });
-  }, [dispatch, props.match.params, props.match.params.username]);
 
   //relevanttweets
   React.useEffect(() => {
@@ -92,16 +87,14 @@ export function UserProfile(props) {
     fetchData();
   }, [dispatch, props.match.params.username]);
 
-  //relevantUser- relies on state.url set to be same as user in TweetDetails
+  //relevantUser
   React.useEffect(() => {
-    //toggle loading state
-    // setLoading(true);
     const fetchData = async () => {
       try {
         const result = await axios.post(
           "https://socialmedia-server.herokuapp.com/relevantUser",
           {
-            relevantUsername: state.url[0].username,
+            relevantUsername: urlUser,
           }
         );
 
@@ -112,7 +105,7 @@ export function UserProfile(props) {
     };
 
     fetchData();
-  }, [dispatch, state.url]);
+  }, [dispatch, state.url, urlUser]);
 
   //relevantRelationships (gets followers and follow counts)
   React.useEffect(() => {
@@ -149,20 +142,18 @@ export function UserProfile(props) {
   //follower and follow check----------
   let followers;
   let following;
-  if (state.relevantRelationships[0] && state.url[0]) {
+
+  if (state.relevantRelationships[0]) {
     followers = state.relevantRelationships.filter(
-      (x) => x.followed_username === state.url[0].username
+      (x) => x.followed_username === urlUser
     ).length;
     following = state.relevantRelationships.filter(
-      (x) => x.followed_username !== state.url[0].username
+      (x) => x.followed_username !== urlUser
     ).length;
   }
 
-  ///---
   //url for profilepic
-  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.url[0] && state.url[0].username
-  }? ${Date.now()}`;
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${urlUser}? ${Date.now()}`;
 
   //--------------------------------------
 
@@ -174,9 +165,7 @@ export function UserProfile(props) {
           key={state}
           className={classes.media}
           // image={"https://socialmedia-server.herokuapp.com/img/bison"}
-          image={`https://socialmedia-server.herokuapp.com/img/${
-            state.url[0] && state.url[0].username
-          }? ${Date.now()}`}
+          image={`https://socialmedia-server.herokuapp.com/img/${urlUser}? ${Date.now()}`}
           title="user img"
         />
         <CardContent>
@@ -244,14 +233,7 @@ export function UserProfile(props) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
+
       <Container>{!loading ? <Tweets /> : null}</Container>
     </Card>
   );

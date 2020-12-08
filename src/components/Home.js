@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from "react";
-import axios from "axios";
+import React from "react";
 
 //components
 import { HomeTweets } from "./HomeTweets";
@@ -12,38 +11,9 @@ import Divider from "@material-ui/core/Divider";
 import { Typography } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 
-//contextAPI
-import { UserContext } from "../contextAPI/userContext";
-
 //home=========================================
 export function Home() {
-  //context
-  const [, dispatch] = useContext(UserContext);
-
-  //user
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(
-          "https://socialmedia-server.herokuapp.com/user"
-        );
-        dispatch({ type: "SET_USER", payload: result.data });
-        dispatch({
-          type: "SET_RELATIONSHIPS",
-          payload: result.data.relationships,
-        });
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchData();
-  }, [dispatch]);
-
-  //reset state.url to null so <SideBar/> can render different components
-  useEffect(() => {
-    dispatch({ type: "URL_DATA", payload: null });
-  }, [dispatch]);
+  // console.log(useParams());
 
   return (
     <div style={{ paddingTop: "10px" }}>

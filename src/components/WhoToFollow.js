@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
 
@@ -40,10 +40,34 @@ export function WhoToFollow(props) {
   const classes = useStyles();
 
   //--contextAPI--------
-  const [state] = React.useContext(UserContext);
+  const [state, dispatch] = React.useContext(UserContext);
 
   //local (prevent dom loading until state updated)
   const [loading] = React.useState(false);
+
+  //whoTofollow
+  React.useEffect(() => {
+    // setLoading(true);
+
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/whoToFollow"
+        );
+        dispatch({
+          type: "SET_WHO_TO_FOLLOW",
+          payload: result.data,
+        });
+
+        //toggle loading state
+        // setLoading(false);
+      } catch {
+        console.log("something went wrong");
+      }
+    };
+
+    fetchData();
+  }, [dispatch, state.auth]);
 
   //markup
   let whoToFollow;

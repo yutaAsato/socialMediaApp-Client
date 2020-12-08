@@ -6,7 +6,7 @@ import { UserContext } from "../contextAPI/userContext";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
-export function FollowButton(props) {
+export function FollowButton({ urlUser }) {
   //--contextAPI--------
   const [state, dispatch] = React.useContext(UserContext);
 
@@ -16,7 +16,7 @@ export function FollowButton(props) {
       return;
     }
     let following = state.relationships.map((data) =>
-      data.followed_username === state.url[0].username ? "following" : null
+      data.followed_username === urlUser ? "following" : null
     );
     if (following.find((x) => x === "following")) {
       return true;
@@ -30,7 +30,7 @@ export function FollowButton(props) {
         const result = await axios.post(
           "https://socialmedia-server.herokuapp.com/unFollow",
           {
-            toUnfollowUsername: state.url[0].username,
+            toUnfollowUsername: urlUser,
           }
         );
         dispatch({ type: "SET_RELATIONSHIPS", payload: result.data });
@@ -49,7 +49,7 @@ export function FollowButton(props) {
         const result = await axios.post(
           "https://socialmedia-server.herokuapp.com/follow",
           {
-            toFollowUsername: state.url[0].username,
+            toFollowUsername: urlUser,
           }
         );
         dispatch({ type: "SET_RELATIONSHIPS", payload: result.data });

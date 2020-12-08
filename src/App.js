@@ -10,19 +10,38 @@ import { UserContext } from "./contextAPI/userContext";
 //==========================================================
 
 function App() {
-  const [state] = React.useContext(UserContext);
+  const [state, dispatch] = React.useContext(UserContext);
 
   if (localStorage.jwt) {
     axios.defaults.headers.common["Authorization"] = localStorage.jwt;
     // window.location.href = "/";
   }
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(
+          "https://socialmedia-server.herokuapp.com/user"
+        );
+        dispatch({ type: "SET_USER", payload: result.data });
+        dispatch({
+          type: "SET_RELATIONSHIPS",
+          payload: result.data.relationships,
+        });
+      } catch (err) {
+        console.error({ error: err.response });
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       {localStorage.jwt ? (
         <AuthenticatedApp state={state} />
       ) : (
-        <UnauthenticatedApp state={state} />
+        <UnauthenticatedApp />
       )}
     </div>
   );

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 //=========================================
 
-export function Relevant(props) {
+export function Relevant({ urlUser }) {
   const classes = useStyles();
 
   //--contextAPI--------
@@ -53,7 +53,7 @@ export function Relevant(props) {
         const result = await axios.post(
           "https://socialmedia-server.herokuapp.com/relevantUser",
           {
-            relevantUsername: state.url[0].username,
+            relevantUsername: urlUser,
           }
         );
 
@@ -67,12 +67,10 @@ export function Relevant(props) {
     };
 
     fetchData();
-  }, [dispatch, state.url]);
+  }, [dispatch, state.url, urlUser]);
 
   //url for profilepic
-  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.url[0] && state.url[0].username
-  }? ${Date.now()}`;
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${urlUser}? ${Date.now()}`;
 
   //markup
   let markup = (
@@ -132,7 +130,7 @@ export function Relevant(props) {
               }
             />
           </Link>
-          <FollowButton />
+          <FollowButton urlUser={urlUser} />
         </ListItem>
       </List>
     </Card>

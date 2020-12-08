@@ -1,11 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //components
 import { Home } from "./components/Home";
@@ -70,7 +65,9 @@ function AuthenticatedApp({ state }) {
 
                 <Hidden smDown>
                   <Grid item sm={false} md={4} lg={4}>
-                    {/* <Route component={SideBar}></Route> */}
+                    <Route exact path={["/:username", "/:username/:id"]}>
+                      <SideBar state={state} />
+                    </Route>
                   </Grid>
                 </Hidden>
               </Grid>
