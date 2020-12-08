@@ -86,7 +86,7 @@ function dataReducer(state, action) {
       return {
         ...state,
         relationships: [],
-        loggedUser: {},
+        loggedUser: null,
       };
     default: {
       throw new Error(`Unsupported action type: ${action.type}`);
@@ -97,17 +97,19 @@ function dataReducer(state, action) {
 //provider
 export function UserProvider(props) {
   const [state, dispatch] = React.useReducer(dataReducer, {
-    loggedUser: {
-      username: "",
-      email: "",
-      userId: "",
-      joined: "",
-      bio: "",
-      website: "",
-      location: "",
-      profilePic: "",
-      notifications: [],
-    },
+    loggedUser: null,
+    //  {
+
+    // username: "",
+    // email: "",
+    // userId: "",
+    // joined: "",
+    // bio: "",
+    // website: "",
+    // location: "",
+    // profilePic: "",
+    // notifications: [],
+    // },
     relationships: [],
     userTweets: [],
     tweets: [],
