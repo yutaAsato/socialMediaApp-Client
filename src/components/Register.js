@@ -1,9 +1,5 @@
-import React, { useState, useContext } from "react";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
-
-//contextAPI
-import { UserContext } from "../contextAPI/userContext";
+import React, { useState } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 
 //mui
 import Avatar from "@material-ui/core/Avatar";
@@ -19,6 +15,13 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+//utils/hooks/authprovider
+import { useClient } from "../utils/api-client";
+import { useAsync } from "../utils/hooks";
+import { useAuth } from "../contextAPI/authProvider";
+
+//------------------------------------
 
 function Copyright() {
   return (
@@ -56,7 +59,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//--------------------------------------------------------------------------
 export function Register(props) {
+  const { isLoading, isError, error, run } = useAsync();
+  const { login, register } = useAuth();
+
   const classes = useStyles();
 
   //local state
@@ -74,8 +81,10 @@ export function Register(props) {
     },
   });
 
-  //--contextAPI--------
-  const [state, dispatch] = useContext(UserContext);
+  //redirect
+  if (localStorage.jwt) {
+    return <Redirect to="/" />;
+  }
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -92,35 +101,44 @@ export function Register(props) {
     setConfirmPassword(e.target.value);
   };
 
-  //axios
+  //register
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const registerUser = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/register",
-          {
-            email: email,
-            username: username,
-            password: password,
-            confirmPassword: confirmPassword,
-          }
-        );
-        const token = `Bearer ${result.data}`;
-        localStorage.setItem("jwt", token);
-        //redirects
-        props.history.push("/");
-      } catch (err) {
-        setErrors(err.response.data);
-      }
+    const data = {
+      email: email,
+      username: username,
+      password: password,
+      confirmPassword: confirmPassword,
     };
 
-    registerUser();
+    run(register(data));
+
+    // const registerUser = async () => {
+    //   try {
+    //     const result = await axios.post(
+    //       "https://socialmedia-server.herokuapp.com/register",
+    //       {
+    //         email: email,
+    //         username: username,
+    //         password: password,
+    //         confirmPassword: confirmPassword,
+    //       }
+    //     );
+    //     const token = `Bearer ${result.data}`;
+    //     localStorage.setItem("jwt", token);
+    //     //redirects
+    //     props.history.push("/");
+    //   } catch (err) {
+    //     setErrors(err.response.data);
+    //   }
+    // };
+
+    // registerUser();
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" style={{ paddingBottom: "55px" }}>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -186,8 +204,8 @@ export function Register(props) {
             onChange={handleConfirmPassword}
           />
 
-          <Grid container>
-            <Grid alignItems="center">
+          <Grid container alignItems="center">
+            <Grid>
               {errors.errors.general && (
                 <Typography variant="body2" className={classes.customError}>
                   {errors.errors.general}

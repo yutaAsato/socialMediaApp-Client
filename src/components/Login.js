@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
@@ -19,6 +18,13 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+//utils/hooks/authprovider
+import { useClient } from "../utils/api-client";
+import { useAsync } from "../utils/hooks";
+import { useAuth } from "../contextAPI/authProvider";
+
+//====================
 
 function Copyright() {
   return (
@@ -56,8 +62,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//------------------------------------
 export function LogIn(props) {
   const classes = useStyles();
+  let history = useHistory();
+  let client = useClient();
+
+  const { isLoading, isError, error, run } = useAsync();
+  const { login, register } = useAuth();
 
   //local state
   const [email, setEmail] = useState("");
@@ -72,7 +84,7 @@ export function LogIn(props) {
   });
 
   //--contextAPI--------
-  const [state, dispatch] = useContext(UserContext);
+  const [, dispatch] = useContext(UserContext);
 
   //redirect
   if (localStorage.jwt) {
@@ -92,34 +104,19 @@ export function LogIn(props) {
   //axios login
   const handleSubmit = (e) => {
     e.preventDefault();
-    const loginUser = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/login",
-          {
-            email: email,
-            password: password,
-          }
-        );
-
-        const token = `Bearer ${result.data}`;
-        localStorage.setItem("jwt", token);
-
-        console.log("working here");
-        dispatch({ type: "SET_AUTH", payload: true });
-
-        // props.history.push("/");
-      } catch (err) {
-        console.log("login failed");
-        setErrors(err.response.data);
-      }
+    const data = {
+      email: email,
+      password: password,
     };
-
-    loginUser();
+    run(login(data));
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+      style={{ paddingBottom: "200px" }}
+    >
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -181,11 +178,6 @@ export function LogIn(props) {
             Sign In
           </Button>
           <Grid container>
-            {/* <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid> */}{" "}
             <Grid item>
               {"Don't have an account?"}
               <Link

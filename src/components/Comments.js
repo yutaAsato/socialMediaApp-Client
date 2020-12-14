@@ -23,6 +23,11 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 
+//query
+import { usePostComment } from "../utils/updaters";
+import { useUser } from "../utils/user";
+import { useNotifications } from "../utils/notifications";
+
 //----------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -32,25 +37,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//----------------------------
+//==============================================================
 
-export function Comments(props) {
+export function Comments({ tweetId, tweetUsername }) {
+  const loggedUser = useUser("user");
+
+  const [postComment] = usePostComment(
+    `tweet/${tweetUsername}/${tweetId}/${loggedUser.user.username}/comment`
+  );
+
+  const [postNotification] = useNotifications("notifications");
+  //-------------------------------------------------------
+
   const classes = useStyles();
 
   //dayjs extesnsion plug
   dayjs.extend(relativeTime);
 
   //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
+  const [state] = React.useContext(UserContext);
 
   //local state
   const [open, setOpen] = React.useState(false);
   const [reply, setReply] = React.useState("");
-
-  //get tweetId from url
-  const currentTweetId = state.url[0] && state.url[0].tweetId;
-  //get tweet username from url
-  const currentTweetUsername = state.url[0] && state.url[0].username;
 
   //eventHandlers
   const handleClickOpen = () => {
@@ -68,67 +77,67 @@ export function Comments(props) {
   //------------------------------------------
 
   //axios postreply
-  function handleComment() {
-    const postReply = async () => {
-      try {
-        const result = await axios.post(
-          `https://socialmedia-server.herokuapp.com/tweet/${
-            state.url[0] && state.url[0].username
-          }/${state.url[0] && state.url[0].tweetId}/${
-            state.loggedUser && state.loggedUser.username
-          }/comment`,
-          {
-            comment: reply,
-          }
-        );
-        console.log("posted reply");
-        postNotification();
-      } catch {
-        console.log("cannot post reply");
-      }
-    };
-    postReply();
-    handleClose();
-  }
+  // function handleComment() {
+  //   const postReply = async () => {
+  //     try {
+  //       await axios.post(
+  //         `https://socialmedia-server.herokuapp.com/tweet/${tweetUsername}/${tweetId}/${
+  //           state.loggedUser && state.loggedUser.username
+  //         }/comment`,
+  //         {
+  //           comment: reply,
+  //         }
+  //       );
+  //       console.log("posted reply");
+  //       postNotification();
+  //     } catch {
+  //       console.log("cannot post reply");
+  //     }
+  //   };
+  //   postReply();
+  //   handleClose();
+  // }
 
   //postNotification
-  function postNotification() {
-    const postData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/notifications",
-          {
-            sender: state.loggedUser.username,
-            recipient: state.relevantUser[0].username,
-            type: "commented",
-            tweetId: currentTweetId,
-          }
-        );
-        console.log("posted notifications");
-      } catch {
-        console.log("something went wrong");
-      }
-    };
+  // function postNotification() {
+  //   const postData = async () => {
+  //     try {
+  //       await axios.post(
+  //         "https://socialmedia-server.herokuapp.com/notifications",
+  //         {
+  //           sender: state.loggedUser.username,
+  //           recipient: state.relevantUser[0].username,
+  //           type: "commented",
+  //           tweetId: tweetId,
+  //         }
+  //       );
+  //       console.log("posted notifications");
+  //     } catch {
+  //       console.log("something went wrong");
+  //     }
+  //   };
 
-    postData();
-  }
+  //   postData();
+  // }
 
   //--------------------------------------
+  let user = tweetUsername;
+  let postId = tweetId;
 
   //url for profilepic
   const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.loggedUser && state.loggedUser.username
+    loggedUser.user.username
   }? ${Date.now()}`;
 
   //filteredTweets
   let filteredTweets;
   if (state.url[0]) {
-    state.loggedUser.username === currentTweetUsername
+    loggedUser.user.username === tweetUsername
       ? (filteredTweets = state.userTweets.filter(
-          (data) => data.id === parseInt(currentTweetId)
+          (data) => data.id === parseInt(tweetId)
         ))
       : (filteredTweets = state.tweets.filter(
-          (data) => data.id === parseInt(currentTweetId)
+          (data) => data.id === parseInt(tweetId)
         ));
   }
 
@@ -141,6 +150,7 @@ export function Comments(props) {
           avatar={
             <Avatar>
               <img
+                alt=""
                 src={`https://socialmedia-server.herokuapp.com/img/${
                   filteredTweets[0] && filteredTweets[0].username
                 }? ${Date.now()}`}
@@ -182,6 +192,7 @@ export function Comments(props) {
         <DialogContent>
           <Avatar>
             <img
+              alt=""
               src={profilePic ? profilePic : null}
               style={{ width: "100%", objectFit: "cover" }}
             />
@@ -200,7 +211,21 @@ export function Comments(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleComment} color="primary">
+          <Button
+            onClick={() => {
+              postComment({
+                comment: reply,
+              });
+              postNotification({
+                sender: loggedUser.user.username,
+                recipient: user,
+                type: "commented",
+                tweetId: postId,
+              });
+              handleClose();
+            }}
+            color="primary"
+          >
             Reply
           </Button>
         </DialogActions>

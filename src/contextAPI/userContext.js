@@ -84,9 +84,11 @@ function dataReducer(state, action) {
       };
     case "LOG_OUT":
       return {
+        // ...state,
+        // relationships: [],
+        // loggedUser: null,
         ...state,
-        relationships: [],
-        loggedUser: {},
+        initial,
       };
     default: {
       throw new Error(`Unsupported action type: ${action.type}`);
@@ -94,33 +96,25 @@ function dataReducer(state, action) {
   }
 }
 
+const initial = {
+  loggedUser: null,
+  relationships: [],
+  userTweets: [],
+  tweets: [],
+  likes: [],
+  auth: false,
+  url: [],
+  relevantUser: [],
+  relevantRelationships: [],
+  relevantComments: [],
+  // relevantLikes: [],
+  relevantUserImage: "",
+  whoToFollow: [],
+};
+
 //provider
 export function UserProvider(props) {
-  const [state, dispatch] = React.useReducer(dataReducer, {
-    loggedUser: {
-      username: "",
-      email: "",
-      userId: "",
-      joined: "",
-      bio: "",
-      website: "",
-      location: "",
-      profilePic: "",
-      notifications: [],
-    },
-    relationships: [],
-    userTweets: [],
-    tweets: [],
-    likes: [],
-    auth: false,
-    url: [],
-    relevantUser: [],
-    relevantRelationships: [],
-    relevantComments: [],
-    // relevantLikes: [],
-    relevantUserImage: "",
-    whoToFollow: [],
-  });
+  const [state, dispatch] = React.useReducer(dataReducer, initial);
 
   const value = React.useMemo(() => [state, dispatch], [state]);
   return <UserContext.Provider value={value} {...props} />;

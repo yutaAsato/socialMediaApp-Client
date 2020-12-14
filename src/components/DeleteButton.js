@@ -3,11 +3,6 @@ import axios from "axios";
 // import { withRouter } from "react-router";
 import { useHistory } from "react-router-dom";
 
-//contextAPI
-import { UserContext } from "../contextAPI/userContext";
-
-//mui
-
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";

@@ -3,90 +3,46 @@ import axios from "axios";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
-import { Avatar } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Container } from "@material-ui/core";
 
-export function FollowButton(props) {
-  //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
+//query
+//query
+import { useFollowUnfollow } from "../utils/updaters";
+import { useNotifications } from "../utils/notifications";
+
+//===============================================
+
+export function FollowButton({ userData, relevantUser }) {
+  const [follow] = useFollowUnfollow("follow");
+  const [unFollow] = useFollowUnfollow("unFollow");
+  const [postNotification] = useNotifications("notifications");
+
+  console.log("WhoToFollowButton", userData);
 
   //check if logged user is following this users profile, if yes color icon, no is black
   function followUser() {
-    if (!state.relationships[0]) {
+    if (!userData.relationships) {
       return;
     }
-    let following = state.relationships.map((data) =>
-      data.followed_username === state.url[0].username ? "following" : null
+    let following = userData.relationships.map((data) =>
+      data.followed_username === relevantUser.username ? "following" : null
     );
+
     if (following.find((x) => x === "following")) {
       return true;
     }
   }
 
-  //unfollow
-  function handleUnfollow() {
-    const fetchData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/unFollow",
-          {
-            toUnfollowUsername: state.url[0].username,
-          }
-        );
-        dispatch({ type: "SET_RELATIONSHIPS", payload: result.data });
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchData();
-  }
-
-  //follow
-  function handleFollow() {
-    const fetchData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/follow",
-          {
-            toFollowUsername: state.url[0].username,
-          }
-        );
-        dispatch({ type: "SET_RELATIONSHIPS", payload: result.data });
-        postNotification();
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchData();
-  }
-
-  //postNotification
-  function postNotification() {
-    const postData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/notifications",
-          {
-            sender: state.loggedUser.username,
-            recipient: state.relevantUser[0].username,
-            type: "followed",
-          }
-        );
-        console.log("posted notifications");
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    postData();
-  }
-
   const followButton = followUser() ? (
-    <Tooltip title="unfollow" onClick={handleUnfollow}>
+    <Tooltip
+      title="unfollow"
+      onClick={() => {
+        unFollow({
+          toUnfollowUsername: relevantUser.username,
+        });
+      }}
+    >
       <IconButton>
         <img
           alt=""
@@ -96,7 +52,19 @@ export function FollowButton(props) {
       </IconButton>
     </Tooltip>
   ) : (
-    <Tooltip title="follow" onClick={handleFollow}>
+    <Tooltip
+      title="follow"
+      onClick={() => {
+        follow({
+          toFollowUsername: relevantUser.username,
+        });
+        postNotification({
+          sender: userData.user.username,
+          recipient: relevantUser.username,
+          type: "followed",
+        });
+      }}
+    >
       <IconButton>
         <img
           alt=""

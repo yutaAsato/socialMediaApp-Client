@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 
 //mui
 import Avatar from "@material-ui/core/Avatar";
@@ -10,6 +9,10 @@ import TextField from "@material-ui/core/TextField";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
+
+//query
+import { usePostTweet } from "../utils/updaters";
+import { useUser } from "../utils/user";
 
 //===========================================
 
@@ -49,11 +52,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//========================================
+
 export function HomePostTweet() {
+  const [postTweet] = usePostTweet("postTweet");
+  const loggedUser = useUser("user");
+
+  console.log(loggedUser);
+
+  //--------------------------------
   const classes = useStyles();
 
   //context
-  const [state, dispatch] = React.useContext(UserContext);
+  const [state] = React.useContext(UserContext);
 
   //local
   const [tweet, setTweet] = React.useState("");
@@ -61,26 +72,6 @@ export function HomePostTweet() {
   //set tweet state
   function handleTweet(e) {
     setTweet(e.target.value);
-  }
-
-  //axios postTweet
-  function handlePostTweet() {
-    const postTweet = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/postTweet",
-          {
-            content: tweet,
-          }
-        );
-        console.log("posted tweet");
-      } catch {
-        console.log("cannot post tweet");
-      }
-    };
-
-    postTweet();
-    handleClear();
   }
 
   function handleClear() {
@@ -93,9 +84,8 @@ export function HomePostTweet() {
         <ListItem>
           <Avatar component="span">
             <img
-              src={`https://socialmedia-server.herokuapp.com/img/${
-                state.loggedUser && state.loggedUser.username
-              }? ${Date.now()}`}
+              alt=""
+              src={`https://socialmedia-server.herokuapp.com/img/${loggedUser.user.username}`}
               style={{ width: "150%", objectFit: "cover" }}
             />
           </Avatar>
@@ -116,7 +106,12 @@ export function HomePostTweet() {
             // }}
           >
             <Button
-              onClick={handlePostTweet}
+              onClick={() => {
+                postTweet({
+                  content: tweet,
+                });
+                handleClear();
+              }}
               color="primary"
               //   style={{ color: "#87CEFA" }}
               variant="contained"

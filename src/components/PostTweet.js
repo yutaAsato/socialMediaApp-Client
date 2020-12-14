@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
@@ -12,28 +11,20 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 
+//query
+import { usePostTweet } from "../utils/updaters";
+import { useUser } from "../utils/user";
+
 //----------------------
 
-const useStyles = makeStyles((theme) => ({
-  dialogContainer: {
-    // display: "flex",
-    width: "500px",
-  },
-}));
-
-//----------------------------
-
 export function PostTweet() {
-  const classes = useStyles();
-
-  //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
+  const [postTweet] = usePostTweet("postTweet");
+  const loggedUser = useUser("user");
 
   //local state
   const [open, setOpen] = React.useState(false);
@@ -51,33 +42,8 @@ export function PostTweet() {
     setTweet(e.target.value);
   }
 
-  //axios postTweet
-  function handlePostTweet() {
-    const postTweet = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/postTweet",
-          {
-            content: tweet,
-            urlUser: state.url[0] && state.url[0].username,
-          }
-        );
-        dispatch({ type: "SET_TWEETS", payload: result.data });
-        console.log("posted tweet");
-      } catch {
-        console.log("cannot post tweet");
-      }
-    };
-
-    postTweet();
-
-    handleClose();
-  }
-
   //url for profilepic
-  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.loggedUser && state.loggedUser.username
-  }? ${Date.now()}`;
+  const profilePic = `https://socialmedia-server.herokuapp.com/img/${loggedUser.user.username}`;
 
   //media query fro mui (button size)
   const theme = useTheme();
@@ -112,14 +78,12 @@ export function PostTweet() {
         <DialogContent>
           <Avatar>
             <img
+              alt=""
               src={profilePic ? profilePic : null}
-              style={{ width: "100%", objectFit: "cover" }}
+              style={{ width: "200%", objectFit: "fill" }}
             />
           </Avatar>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText> */}
+
           <TextField
             autoFocus
             margin="dense"
@@ -134,7 +98,16 @@ export function PostTweet() {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handlePostTweet} color="primary">
+          <Button
+            onClick={() => {
+              postTweet({
+                content: tweet,
+                urlUser: loggedUser.user.username,
+              });
+              handleClose();
+            }}
+            color="primary"
+          >
             Post
           </Button>
         </DialogActions>

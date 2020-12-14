@@ -15,7 +15,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import { Badge, MenuItem } from "@material-ui/core";
 import ChatIcon from "@material-ui/icons/Chat";
@@ -23,9 +23,11 @@ import Star from "@material-ui/icons/Star";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Menu } from "@material-ui/core";
 
+//query
+import { useUser } from "../utils/user";
+import { useRelevantUser } from "../utils/user";
+import { useMarkNotification } from "../utils/updaters";
 //---------------------------------------
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,20 +52,22 @@ const useStyles = makeStyles((theme) => ({
       display: "inline",
     },
   },
+  listText: {
+    // color: "blue",
+  },
 }));
 
 ///=========================================================
 
-export function NotificationsButton() {
-  const classes = useStyles();
+export function NotificationsButton({ notifications }) {
+  const [markNotifications] = useMarkNotification("markNotifications");
 
-  //menu state
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  //--contextAPI--------
-  const [state, dispatch] = useContext(UserContext);
+  console.log("Notification Button");
 
   //--------------------------------
+  const classes = useStyles();
+  //menu state
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   //handleOpen
   function handleOpen(event) {
@@ -73,80 +77,25 @@ export function NotificationsButton() {
   //handleClsoe
   function handleClose() {
     setAnchorEl(null);
-
-    //call getUser to update marked notifications
-    getLoggedUser();
   }
 
   //menuOpen
   function onMenuOpened() {
-    let unreadNotificationsId = state.loggedUser.notifications
+    let unreadNotificationsId = notifications
       .filter((not) => !not.read)
       .map((not) => not.id);
 
-    const postData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/markNotifications",
-          {
-            unreadNotificationId: unreadNotificationsId,
-          }
-        );
-
-        // getLoggedUser();
-        console.log("updatednotifications");
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    postData();
+    return unreadNotificationsId;
   }
-
-  //getUser
-  function getLoggedUser() {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(
-          "https://socialmedia-server.herokuapp.com/user"
-        );
-        dispatch({ type: "SET_USER", payload: result.data });
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchData();
-  }
-
-  //---------------------------------
-
-  // let orderedNotifications;
-  // let orderedNotifications;
-  // if (state.loggedUser) {
-  //   orderedNotifications = state.loggedUser.notifications
-  //     ? state.loggedUser.notifications.sort(function compare(a, b) {
-  //         var dateA = new Date(a.created_at);
-  //         var dateB = new Date(b.created_at);
-  //         return dateB - dateA;
-  //       })
-  //     : null;
-  // }
-  // console.log(orderedNotifications);
 
   let notificationIcon;
 
-  if (
-    state.loggedUser.notifications &&
-    state.loggedUser.notifications.length > 0
-  ) {
-    state.loggedUser.notifications.filter((not) => not.read === false).length >
-    0
+  if (notifications.length) {
+    notifications.filter((not) => not.read === false).length > 0
       ? (notificationIcon = (
           <Badge
             badgeContent={
-              state.loggedUser.notifications.filter((not) => not.read === false)
-                .length
+              notifications.filter((not) => not.read === false).length
             }
             color="secondary"
           >
@@ -159,81 +108,98 @@ export function NotificationsButton() {
   }
 
   //notificationsMarkup
-  //
-  let notificationsMarkup =
-    state.loggedUser.notifications &&
-    state.loggedUser.notifications.length > 0 ? (
-      state.loggedUser.notifications.map((not) => {
-        let verb;
-        if (not.type === "liked") {
-          verb = "liked";
-        } else if (not.type === "commented") {
-          verb = "commented";
-        } else if (not.type === "followed") {
-          verb = "followed";
-        }
 
-        const time = dayjs(not.created_at).fromNow();
-        const iconColor = not.read ? "primary" : "secondary";
+  let notificationsMarkup;
+  if (notifications.length) {
+    notificationsMarkup = notifications.map((not) => {
+      let verb;
+      if (not.type === "liked") {
+        verb = "liked";
+      } else if (not.type === "commented") {
+        verb = "commented";
+      } else if (not.type === "followed") {
+        verb = "followed";
+      }
 
-        let icon;
-        if (not.type === "liked") {
-          icon = <FavoriteIcon color={iconColor} style={{ marginRight: 10 }} />;
-        } else if (not.type === "commented") {
-          icon = <ChatIcon color={iconColor} style={{ marginRight: 10 }} />;
-        } else {
-          icon = <Star color={iconColor} style={{ marginRight: 10 }} />;
-        }
+      // const time = dayjs(not.created_at).fromNow();
+      const iconColor = not.read ? "primary" : "secondary";
 
-        let outPut;
-        if (not.type === "liked") {
-          outPut = (
-            <MenuItem key={not.created_at} onClick={handleClose}>
+      let icon;
+      if (not.type === "liked") {
+        icon = <FavoriteIcon color={iconColor} style={{ marginRight: 10 }} />;
+      } else if (not.type === "commented") {
+        icon = <ChatIcon color={iconColor} style={{ marginRight: 10 }} />;
+      } else {
+        icon = <Star color={iconColor} style={{ marginRight: 10 }} />;
+      }
+
+      let outPut;
+      if (not.type === "liked") {
+        outPut = (
+          <Link to={`/${not.recipient}/${not.tweetid}`} key={not.created_at}>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+              }}
+            >
               {icon}
               <Typography
+                key={not.created_at}
                 component={Link}
                 color="primary"
                 variant="body1"
                 to={`/${not.recipient}/${not.tweetid}`}
               >
-                {not.sender} {verb} your post {time}
+                {not.sender} {verb} your post
+                {/* {not.sender} {verb} your post {time} */}
               </Typography>
             </MenuItem>
-          );
-        } else if (not.type === "commented") {
-          outPut = (
-            <MenuItem key={not.created_at} onClick={handleClose}>
+          </Link>
+        );
+      } else if (not.type === "commented") {
+        outPut = (
+          <Link to={`/${not.recipient}/${not.tweetid}`} key={not.created_at}>
+            <MenuItem onClick={handleClose}>
               {icon}
               <Typography
+                key={not.created_at}
                 component={Link}
                 color="primary"
                 variant="body1"
                 to={`/${not.recipient}/${not.tweetid}`}
               >
-                {not.sender} {verb} your post {time}
+                {not.sender} {verb} your post
+                {/* {not.sender} {verb} your post {time} */}
               </Typography>
             </MenuItem>
-          );
-        } else {
-          outPut = (
-            <MenuItem key={not.created_at} onClick={handleClose}>
-              {icon}
+          </Link>
+        );
+      } else {
+        outPut = (
+          <MenuItem onClick={handleClose}>
+            {icon}
+            <Link to={`/${not.sender}`} key={not.created_at}>
               <Typography
+                key={not.created_at}
                 component={Link}
                 color="primary"
                 variant="body1"
                 to={`/${not.sender}`}
               >
-                {not.sender} {verb} you {time}
+                {not.sender} {verb} you
+                {/* {not.sender} {verb} you {time} */}
               </Typography>
-            </MenuItem>
-          );
-        }
-        return outPut;
-      })
-    ) : (
+            </Link>
+          </MenuItem>
+        );
+      }
+      return outPut;
+    });
+  } else {
+    notificationsMarkup = (
       <MenuItem onClick={handleClose}>You have no notifications yet</MenuItem>
     );
+  }
 
   //--------------------------------------------------------------------
 
@@ -250,13 +216,15 @@ export function NotificationsButton() {
         </IconButton>
       </ListItemIcon>
       <Hidden mdDown>
-        <ListItemText primary={"Notifications"} />
+        <ListItemText className={classes.listText} primary={"Notifications"} />
       </Hidden>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        onEntered={onMenuOpened}
+        onEntered={() =>
+          markNotifications({ unreadNotificationId: onMenuOpened() })
+        }
       >
         {notificationsMarkup}
       </Menu>
