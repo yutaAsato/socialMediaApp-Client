@@ -15,8 +15,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import Avatar from "@material-ui/core/Avatar";
-import { Container } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+//query
+import { useUpload } from "../utils/uploadImage";
+import { useEditDetails } from "../utils/updaters";
 
 //------------------------------------------------------
 
@@ -26,16 +30,22 @@ const useStyles = makeStyles((theme) => ({
   },
   editProfile: {
     overflowY: "hidden",
-    marginLeft: "400px",
+    marginLeft: "300px",
     [theme.breakpoints.down("md")]: {
-      // width: theme.spacing(8) + 1,
-      marginLeft: "130px",
+      marginLeft: "25px",
       fontSize: "0.5rem",
     },
   },
 }));
 
-export function EditProfile(props) {
+//================================================
+
+export function EditProfile({ user, image }) {
+  const [uploadImage] = useUpload("upload");
+
+  const [editDetails] = useEditDetails("editDetails");
+
+  //===============================
   //mui
   const classes = useStyles();
 
@@ -61,56 +71,10 @@ export function EditProfile(props) {
 
   //set default values to state, if not form will overwrite previous if not input
   React.useEffect(() => {
-    setBio(state.loggedUser.bio);
-    setWebsite(state.loggedUser.website);
-    setLocation(state.loggedUser.location);
-  }, [
-    state.loggedUser.bio,
-    state.loggedUser.location,
-    state.loggedUser.website,
-  ]);
-
-  //editDetails
-  function handleSubmitForm() {
-    setOpen(false);
-
-    const fetchData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/editDetails",
-          {
-            bio: bio,
-            website: website,
-            location: location,
-          }
-        );
-
-        dispatch({ type: "SET_USER", payload: result.data });
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchData();
-
-    //relevantuser state needs to update after so UserProfile has access to new userDetails
-    const fetchRelevant = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/relevantUser",
-          {
-            relevantUsername: state.url[0].username,
-          }
-        );
-
-        dispatch({ type: "SET_RELEVANT_USER", payload: result.data });
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchRelevant();
-  }
+    setBio(user.bio);
+    setWebsite(user.website);
+    setLocation(user.location);
+  }, [user.bio, user.location, user.website]);
 
   //event handlers--------
 
@@ -127,7 +91,9 @@ export function EditProfile(props) {
     setLocation(event.target.value);
   }
 
-  //IMAGE HANDLERS`
+  function handleSubmitForm() {
+    setOpen(false);
+  }
 
   //opens hidden image input using tooltip
   function handleEditPicture() {
@@ -136,38 +102,14 @@ export function EditProfile(props) {
   }
 
   //submit Image change
-  function handleSubmitChange(event) {
+  function handleImageChange(event) {
     const image = event.target.files[0];
 
     const formData = new FormData();
     formData.append("image", image);
 
-    //upload image
-    const uploadImage = async () => {
-      try {
-        await axios.post(
-          "https://socialmedia-server.herokuapp.com/upload",
-          formData
-        );
-
-        dispatch({
-          type: "SET_RELEVANT_USER_IMAGE",
-          payload: `https://socialmedia-server.herokuapp.com/img/${
-            state.url[0] && state.url[0].username
-          }`,
-        });
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    uploadImage();
+    uploadImage(formData);
   }
-
-  //url for profilepic
-  const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.url[0] && state.url[0].username
-  }? ${Date.now()}`;
 
   //------------------------
 
@@ -178,10 +120,12 @@ export function EditProfile(props) {
         variant="outlined"
         color="primary"
         onClick={handleClickOpen}
-        // style={{ marginLeft: "400px" }}
+        style={{ width: "200px" }}
         component="span"
       >
-        Edit details
+        <Typography style={{ fontWeight: 800, fontSize: "0.9rem" }}>
+          Edit details
+        </Typography>
       </Button>
       <Dialog
         fullWidth={true}
@@ -196,7 +140,7 @@ export function EditProfile(props) {
             <Avatar component="span">
               <img
                 alt=""
-                src={profilePic ? profilePic : null}
+                src={image}
                 style={{ width: "150%", objectFit: "cover" }}
               />
             </Avatar>{" "}
@@ -205,7 +149,7 @@ export function EditProfile(props) {
               name="pic"
               id="imageInput"
               hidden="hidden"
-              onChange={handleSubmitChange}
+              onChange={handleImageChange}
             />
             <Tooltip title="Edit profile picture" placement="top">
               <IconButton
@@ -224,7 +168,7 @@ export function EditProfile(props) {
             label="Bio"
             type="email"
             fullWidth
-            defaultValue={state.loggedUser.bio}
+            defaultValue={user.bio}
             style={{ paddingTop: "20px" }}
             onChange={handleBio}
           />
@@ -235,7 +179,7 @@ export function EditProfile(props) {
             label="Location"
             type="text"
             fullWidth
-            defaultValue={state.loggedUser.location}
+            defaultValue={user.location}
             style={{ paddingTop: "20px" }}
             onChange={handleLocation}
           />
@@ -246,7 +190,7 @@ export function EditProfile(props) {
             label="Website"
             type="text"
             fullWidth
-            defaultValue={state.loggedUser.website}
+            defaultValue={user.website}
             style={{ paddingTop: "20px" }}
             onChange={handleWebsite}
           />
@@ -255,7 +199,17 @@ export function EditProfile(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSubmitForm} color="primary">
+          <Button
+            onClick={() => {
+              editDetails({
+                bio: bio,
+                website: website,
+                location: location,
+              });
+              handleSubmitForm();
+            }}
+            color="primary"
+          >
             save
           </Button>
         </DialogActions>

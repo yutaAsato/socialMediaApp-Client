@@ -1,27 +1,34 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { FullPageSpinner } from "../utils/lib";
 
 //components
 import { Relevant } from "./Relevant";
 import { WhoToFollow } from "./WhoToFollow";
 
 //==================================================================
-export function SideBar({ state }) {
+export function SideBar({ user }) {
   const { username: urlUser } = useParams();
 
-  if (state.loggedUser) {
+  console.log("Sidebar,", user);
+
+  if (user) {
     return (
-      <div style={{ paddingTop: "10px" }}>
+      <div style={{ paddingTop: "10px", width: "350px", paddingLeft: "35px" }}>
         {!urlUser ? (
-          <WhoToFollow />
-        ) : urlUser !== state.loggedUser.username ? (
-          <Relevant urlUser={urlUser} />
+          <WhoToFollow userData={user} />
+        ) : urlUser !== user.username ? (
+          <Relevant userData={user} urlUser={urlUser} />
         ) : (
-          <WhoToFollow />
+          <WhoToFollow userData={user} />
         )}
       </div>
     );
   } else {
-    return <div></div>;
+    return (
+      <div>
+        <FullPageSpinner />
+      </div>
+    );
   }
 }

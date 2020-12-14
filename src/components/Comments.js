@@ -23,6 +23,11 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 
+//query
+import { usePostComment } from "../utils/updaters";
+import { useUser } from "../utils/user";
+import { useNotifications } from "../utils/notifications";
+
 //----------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -32,9 +37,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//----------------------------
+//==============================================================
 
-export function Comments({ currentTweetId, currentTweetUsername }) {
+export function Comments({ tweetId, tweetUsername }) {
+  const loggedUser = useUser("user");
+
+  const [postComment] = usePostComment(
+    `tweet/${tweetUsername}/${tweetId}/${loggedUser.user.username}/comment`
+  );
+
+  const [postNotification] = useNotifications("notifications");
+  //-------------------------------------------------------
+
   const classes = useStyles();
 
   //dayjs extesnsion plug
@@ -63,65 +77,67 @@ export function Comments({ currentTweetId, currentTweetUsername }) {
   //------------------------------------------
 
   //axios postreply
-  function handleComment() {
-    const postReply = async () => {
-      try {
-        await axios.post(
-          `https://socialmedia-server.herokuapp.com/tweet/${currentTweetUsername}/${currentTweetId}/${
-            state.loggedUser && state.loggedUser.username
-          }/comment`,
-          {
-            comment: reply,
-          }
-        );
-        console.log("posted reply");
-        postNotification();
-      } catch {
-        console.log("cannot post reply");
-      }
-    };
-    postReply();
-    handleClose();
-  }
+  // function handleComment() {
+  //   const postReply = async () => {
+  //     try {
+  //       await axios.post(
+  //         `https://socialmedia-server.herokuapp.com/tweet/${tweetUsername}/${tweetId}/${
+  //           state.loggedUser && state.loggedUser.username
+  //         }/comment`,
+  //         {
+  //           comment: reply,
+  //         }
+  //       );
+  //       console.log("posted reply");
+  //       postNotification();
+  //     } catch {
+  //       console.log("cannot post reply");
+  //     }
+  //   };
+  //   postReply();
+  //   handleClose();
+  // }
 
   //postNotification
-  function postNotification() {
-    const postData = async () => {
-      try {
-        await axios.post(
-          "https://socialmedia-server.herokuapp.com/notifications",
-          {
-            sender: state.loggedUser.username,
-            recipient: state.relevantUser[0].username,
-            type: "commented",
-            tweetId: currentTweetId,
-          }
-        );
-        console.log("posted notifications");
-      } catch {
-        console.log("something went wrong");
-      }
-    };
+  // function postNotification() {
+  //   const postData = async () => {
+  //     try {
+  //       await axios.post(
+  //         "https://socialmedia-server.herokuapp.com/notifications",
+  //         {
+  //           sender: state.loggedUser.username,
+  //           recipient: state.relevantUser[0].username,
+  //           type: "commented",
+  //           tweetId: tweetId,
+  //         }
+  //       );
+  //       console.log("posted notifications");
+  //     } catch {
+  //       console.log("something went wrong");
+  //     }
+  //   };
 
-    postData();
-  }
+  //   postData();
+  // }
 
   //--------------------------------------
+  let user = tweetUsername;
+  let postId = tweetId;
 
   //url for profilepic
   const profilePic = `https://socialmedia-server.herokuapp.com/img/${
-    state.loggedUser && state.loggedUser.username
+    loggedUser.user.username
   }? ${Date.now()}`;
 
   //filteredTweets
   let filteredTweets;
   if (state.url[0]) {
-    state.loggedUser.username === currentTweetUsername
+    loggedUser.user.username === tweetUsername
       ? (filteredTweets = state.userTweets.filter(
-          (data) => data.id === parseInt(currentTweetId)
+          (data) => data.id === parseInt(tweetId)
         ))
       : (filteredTweets = state.tweets.filter(
-          (data) => data.id === parseInt(currentTweetId)
+          (data) => data.id === parseInt(tweetId)
         ));
   }
 
@@ -195,7 +211,21 @@ export function Comments({ currentTweetId, currentTweetUsername }) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleComment} color="primary">
+          <Button
+            onClick={() => {
+              postComment({
+                comment: reply,
+              });
+              postNotification({
+                sender: loggedUser.user.username,
+                recipient: user,
+                type: "commented",
+                tweetId: postId,
+              });
+              handleClose();
+            }}
+            color="primary"
+          >
             Reply
           </Button>
         </DialogActions>

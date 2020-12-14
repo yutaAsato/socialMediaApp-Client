@@ -53,11 +53,12 @@ async function client(
 
 //useClient
 function useClient() {
-  const token = localStorage.jwt;
+  let token = localStorage.jwt;
+  token = `Bearer ${token}`;
   return React.useCallback(
     (endpoint, config) => client(endpoint, { ...config, token }),
     [token]
   );
 }
 
-export { useClient };
+export { useClient, client };

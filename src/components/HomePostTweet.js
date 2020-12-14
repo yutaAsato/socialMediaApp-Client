@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 
 //mui
 import Avatar from "@material-ui/core/Avatar";
@@ -10,6 +9,10 @@ import TextField from "@material-ui/core/TextField";
 
 //contextAPI
 import { UserContext } from "../contextAPI/userContext";
+
+//query
+import { usePostTweet } from "../utils/updaters";
+import { useUser } from "../utils/user";
 
 //===========================================
 
@@ -49,7 +52,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//========================================
+
 export function HomePostTweet() {
+  const [postTweet] = usePostTweet("postTweet");
+  const loggedUser = useUser("user");
+
+  console.log(loggedUser);
+
+  //--------------------------------
   const classes = useStyles();
 
   //context
@@ -63,23 +74,6 @@ export function HomePostTweet() {
     setTweet(e.target.value);
   }
 
-  //axios postTweet
-  function handlePostTweet() {
-    const postTweet = async () => {
-      try {
-        await axios.post("https://socialmedia-server.herokuapp.com/postTweet", {
-          content: tweet,
-        });
-        console.log("posted tweet");
-      } catch {
-        console.log("cannot post tweet");
-      }
-    };
-
-    postTweet();
-    handleClear();
-  }
-
   function handleClear() {
     setTweet("");
   }
@@ -91,9 +85,7 @@ export function HomePostTweet() {
           <Avatar component="span">
             <img
               alt=""
-              src={`https://socialmedia-server.herokuapp.com/img/${
-                state.loggedUser && state.loggedUser.username
-              }? ${Date.now()}`}
+              src={`https://socialmedia-server.herokuapp.com/img/${loggedUser.user.username}`}
               style={{ width: "150%", objectFit: "cover" }}
             />
           </Avatar>
@@ -114,7 +106,12 @@ export function HomePostTweet() {
             // }}
           >
             <Button
-              onClick={handlePostTweet}
+              onClick={() => {
+                postTweet({
+                  content: tweet,
+                });
+                handleClear();
+              }}
               color="primary"
               //   style={{ color: "#87CEFA" }}
               variant="contained"

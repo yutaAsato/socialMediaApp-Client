@@ -6,13 +6,17 @@ import App from "./App";
 //contextAPI
 import { UserProvider } from "./contextAPI/userContext";
 
+import { AuthProvider } from "./contextAPI/authProvider";
+
+import { AppProviders } from "./contextAPI/app-providers";
+
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserProvider>
+    <AppProviders>
       <App />
-    </UserProvider>
+    </AppProviders>
   </React.StrictMode>,
   document.getElementById("root")
 );

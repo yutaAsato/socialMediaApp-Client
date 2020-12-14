@@ -1,8 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-//contextAPI
-import { UserContext } from "../contextAPI/userContext";
 
 //mui
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,61 +15,47 @@ import Card from "@material-ui/core/Card";
 //components
 import { WtfFollowButton } from "./whoToFollowFollowButton";
 
+//query
+import { useWhoToFollow } from "../utils/user";
+import { FullPageSpinner } from "../utils/lib";
+
 //=====================================
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "350px",
-    maxWidth: "100%",
-    backgroundColor: theme.palette.background.paper,
+    // width: "350px",
+    // maxWidth: "100%",
+    // backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#f7f7f7",
   },
   inline: {
     display: "inline",
+    backgroundColor: "#f7f7f7",
   },
   mainCard: {
     height: "140px",
+    backgroundColor: "#f7f7f7",
   },
+  container: { backgroundColor: "#f7f7f7", width: "350px" },
 }));
 
 //=========================================
 
-export function WhoToFollow(props) {
-  const classes = useStyles();
+export function WhoToFollow({ userData }) {
+  const { data: whoToFollows, isLoading, isFetching } = useWhoToFollow(
+    "whoToFollow"
+  );
+  console.log("WhoToFollow", whoToFollows);
 
-  //--contextAPI--------
-  const [state, dispatch] = React.useContext(UserContext);
+  const classes = useStyles();
 
   //local (prevent dom loading until state updated)
   const [loading] = React.useState(false);
 
-  //whoTofollow
-  React.useEffect(() => {
-    // setLoading(true);
-
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(
-          "https://socialmedia-server.herokuapp.com/whoToFollow"
-        );
-        dispatch({
-          type: "SET_WHO_TO_FOLLOW",
-          payload: result.data,
-        });
-
-        //toggle loading state
-        // setLoading(false);
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchData();
-  }, [dispatch, state.auth]);
-
   //markup
   let whoToFollow;
-  if (state.whoToFollow[0]) {
-    whoToFollow = state.whoToFollow.map((user, idx) => (
+  if (whoToFollows && !isFetching) {
+    whoToFollow = whoToFollows.map((user, idx) => (
       <Card className={classes.mainCard} key={idx}>
         <List className={classes.root}>
           <Divider variant="fullWidth" component="li" />
@@ -85,7 +68,7 @@ export function WhoToFollow(props) {
                   src={`https://socialmedia-server.herokuapp.com/img/${
                     user.username
                   }? ${Date.now()}`}
-                  style={{ width: "100%", objectFit: "cover" }}
+                  style={{ width: "200%", objectFit: "fill" }}
                 />
               </Avatar>
             </ListItemAvatar>
@@ -115,25 +98,33 @@ export function WhoToFollow(props) {
                 }
               />
             </Link>
-            <WtfFollowButton username={user.username} />
+            <WtfFollowButton username={user.username} userData={userData} />
           </ListItem>
         </List>
       </Card>
     ));
   } else {
-    return "nothing here";
+    return (
+      <div>
+        {" "}
+        <FullPageSpinner />
+      </div>
+    );
   }
 
   return (
     <div>
       {!loading ? (
-        <Card>
+        <Card className={classes.container}>
           <Typography
             component="span"
             variant="h5"
             className={classes.inline}
             color="textPrimary"
-            style={{ marginLeft: "55px", fontWeight: "bold" }}
+            style={{
+              marginLeft: "90px",
+              fontWeight: "bold",
+            }}
           >
             {" "}
             Who to follow

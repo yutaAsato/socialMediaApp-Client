@@ -18,12 +18,20 @@ import Card from "@material-ui/core/Card";
 //components
 import { FollowButton } from "./FollowButton";
 
+//utils/hooks
+import { useClient } from "../utils/api-client";
+
+//query
+import { useFollowUnfollow } from "../utils/updaters";
+import { useRelevantUser } from "../utils/user";
+
 //=====================================
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "170px",
     width: "100%",
+    backgroundColor: "#f7f7f7",
   },
   inline: {
     display: "inline",
@@ -35,8 +43,13 @@ const useStyles = makeStyles((theme) => ({
 
 //=========================================
 
-export function Relevant({ urlUser }) {
+export function Relevant({ userData, urlUser }) {
+  const { data: relevantUser, isLoading } = useRelevantUser("relevantUser", {
+    data: { relevantUsername: urlUser },
+  });
+
   const classes = useStyles();
+  const client = useClient();
 
   //--contextAPI--------
   const [state, dispatch] = React.useContext(UserContext);
@@ -44,97 +57,79 @@ export function Relevant({ urlUser }) {
   //local (prevent dom loading until state updated)
   const [loading, setLoading] = React.useState(false);
 
-  //relevantUser- relies on state.url set to be same as user in TweetDetails
-  React.useEffect(() => {
-    //toggle loading
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const result = await axios.post(
-          "https://socialmedia-server.herokuapp.com/relevantUser",
-          {
-            relevantUsername: urlUser,
-          }
-        );
-
-        dispatch({ type: "SET_RELEVANT_USER", payload: result.data });
-
-        //toggle loading
-        setLoading(false);
-      } catch {
-        console.log("something went wrong");
-      }
-    };
-
-    fetchData();
-  }, [dispatch, state.url, urlUser]);
-
-  //url for profilepic
-  const profilePic = `https://socialmedia-server.herokuapp.com/img/${urlUser}? ${Date.now()}`;
-
   //markup
-  let markup = (
-    <Card className={classes.root}>
-      <List>
-        <Typography
-          component="span"
-          variant="h5"
-          className={classes.inline}
-          color="textPrimary"
-          style={{
-            marginLeft: "55px",
-            fontWeight: "bold",
-          }}
-        >
-          {" "}
-          Relevant people
-        </Typography>
-        <Divider variant="fullWidth" component="li" />
-
-        <ListItem alignItems="flex-start" className={classes.listItemStyle}>
-          <div style={{ paddingRight: "15px", paddingTop: "6px" }}>
-            <Avatar component="span">
-              <img
-                alt=""
-                src={profilePic ? profilePic : null}
-                style={{ width: "100%", objectFit: "cover" }}
-              />
-            </Avatar>{" "}
+  let markup;
+  if (relevantUser !== undefined) {
+    markup = (
+      <Card className={classes.root}>
+        <List>
+          <div style={{ paddingBottom: `10px` }}>
+            <Typography
+              component="span"
+              variant="h5"
+              className={classes.inline}
+              color="textPrimary"
+              style={{
+                marginLeft: "80px",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              Relevant people
+            </Typography>
           </div>
-          <Link
-            to={`/${state.relevantUser[0] && state.relevantUser[0].username}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <ListItemText
-              // className={classes.listItem}
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="h5"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    @{state.relevantUser[0] && state.relevantUser[0].username}
-                  </Typography>
-                  <br />
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    {state.relevantUser[0] && state.relevantUser[0].bio}
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </Link>
-          <FollowButton urlUser={urlUser} />
-        </ListItem>
-      </List>
-    </Card>
-  );
+
+          <Divider variant="fullWidth" component="li" />
+
+          <ListItem alignItems="flex-start" style={{ paddingTop: "10px" }}>
+            <div style={{ paddingRight: "15px", paddingTop: "6px" }}>
+              <Avatar component="span">
+                <img
+                  alt=""
+                  src={`https://socialmedia-server.herokuapp.com/img/${urlUser}`}
+                  style={{ width: "200%", objectFit: "fill" }}
+                />
+              </Avatar>{" "}
+            </div>
+            <Link
+              to={`/${relevantUser.username}`}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItemText
+                // className={classes.listItem}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="h5"
+                      className={classes.inline}
+                      color="textPrimary"
+                    >
+                      @{relevantUser.username}
+                    </Typography>
+                    <br />
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      color="textPrimary"
+                      // style={{ fontSize: "0.8rem" }}
+                    >
+                      {relevantUser.bio}
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
+            </Link>
+            {userData.user.username === urlUser ? null : (
+              <FollowButton userData={userData} relevantUser={relevantUser} />
+            )}
+            {/* <FollowButton userData={userData} relevantUser={relevantUser} /> */}
+          </ListItem>
+        </List>
+      </Card>
+    );
+  }
 
   return <div>{!loading ? markup : null}</div>;
 }

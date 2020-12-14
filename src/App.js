@@ -1,27 +1,35 @@
 import React from "react";
+import { useAuth } from "../src/contextAPI/authProvider";
+import { ErrorBoundary } from "react-error-boundary";
+import { FullPageErrorFallback } from "../src/utils/lib";
 
 //components
-import { AuthenticatedApp } from "./AuthenticatedApp";
-import { UnauthenticatedApp } from "./UnauthenticatedApp";
+// import { AuthenticatedApp } from "./AuthenticatedApp";
+// import { UnauthenticatedApp } from "./UnauthenticatedApp";
 
-//contextAPI
-import { UserContext } from "./contextAPI/userContext";
+import { ReactQueryDevtools } from "react-query-devtools";
+import { FullPageSpinner } from "./utils/lib";
+
+//Lazy load
+const AuthenticatedApp = React.lazy(() =>
+  import(/* webpackPrefetch: true */ "./AuthenticatedApp")
+);
+const UnauthenticatedApp = React.lazy(() => import("./UnauthenticatedApp"));
 
 //==========================================================
 
 function App() {
-  const [state] = React.useContext(UserContext);
-
-  console.log("APP", state);
-
-  // if (localStorage.jwt) {
-  //   axios.defaults.headers.common["Authorization"] = localStorage.jwt;
-  // }
+  const { data } = useAuth();
+  // console.log(data.user);
 
   return (
-    <div>
-      {localStorage.jwt ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-    </div>
+    <React.Suspense fallback={<FullPageSpinner />}>
+      <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
+        {data ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      </ErrorBoundary>
+
+      <ReactQueryDevtools initialIsOpen={false} />
+    </React.Suspense>
   );
 }
 
