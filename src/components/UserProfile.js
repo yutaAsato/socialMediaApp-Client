@@ -187,10 +187,10 @@ export function UserProfile(props) {
     <div>
       {!isFetching && relevantTweets ? (
         <Container>
-          <Typography variant="h4" style={{ paddingLeft: "30px" }}>
+          <Typography variant="h4" style={{ paddingLeft: "10px" }}>
             {relevantUser?.username}
           </Typography>
-          <Typography style={{ paddingLeft: "30px" }}>
+          <Typography style={{ paddingLeft: "10px" }}>
             {relevantTweets?.length}{" "}
             {relevantTweets?.length > 1 ? "tweets" : "tweet"}
           </Typography>

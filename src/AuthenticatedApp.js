@@ -36,6 +36,7 @@ import { useHomeTweets } from "./utils/tweets";
 
 function AuthenticatedApp() {
   const location = useLocation();
+  console.log(location);
 
   const user = useUser("user");
   //   const data = useHomeTweets("followTweets");
@@ -65,7 +66,7 @@ function AuthenticatedApp() {
 
           <Grid item xs={12} sm={10} md={10} lg={9}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={12} md={8} lg={8}>
+              <Grid item xs={12} sm={12} md={12} lg={8}>
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/login" component={LogIn} />
@@ -84,7 +85,7 @@ function AuthenticatedApp() {
                 </Switch>
               </Grid>
 
-              <Hidden smDown>
+              <Hidden lgDown>
                 <Grid item sm={false} md={4} lg={4}>
                   <Route exact path={["/:username", "/:username/:id", "/"]}>
                     <SideBar user={user} />

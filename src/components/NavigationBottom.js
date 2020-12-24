@@ -97,11 +97,14 @@ function AuthNavigationBottom() {
       >
         <BottomNavigationAction label="Profile" icon={<ProfileIcon />} />
       </Link>
-      <BottomNavigationAction
-        style={{ paddingRight: "30px", paddingTop: "20px" }}
-        label="Profile"
-        icon={<NotificationsButton notifications={notifications} />}
-      />
+      <Link style={{ paddingBottom: "20px" }}>
+        <BottomNavigationAction
+          style={{ top: "-20px", left: "-15px" }}
+          label="Profile"
+          icon={<NotificationsButton notifications={notifications} />}
+        />
+      </Link>
+
       <Link to={"/login"}>
         <BottomNavigationAction
           onClick={logout}

@@ -146,7 +146,7 @@ function TweetsCard({ tweet }) {
               marginLeft: "-20px",
             }}
           >
-            <Box>
+            <Box style={{ paddingLeft: "14px" }}>
               {tweet.likescount}{" "}
               <LikeButton
                 tweetId={tweet.id}
