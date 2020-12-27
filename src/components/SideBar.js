@@ -6,9 +6,14 @@ import { FullPageSpinner } from "../utils/lib";
 import { Relevant } from "./Relevant";
 import { WhoToFollow } from "./WhoToFollow";
 
+//query
+import { useUser } from "../utils/user";
+
 //==================================================================
-export function SideBar({ user }) {
+export function SideBar() {
   const { username: urlUser } = useParams();
+
+  const user = useUser("user");
 
   console.log("Sidebar,", user);
 

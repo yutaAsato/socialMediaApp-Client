@@ -30,10 +30,15 @@ const useStyles = makeStyles((theme) => ({
   },
   editProfile: {
     overflowY: "hidden",
-    marginLeft: "300px",
-    [theme.breakpoints.down("md")]: {
-      marginLeft: "25px",
+    marginLeft: "100px",
+
+    [theme.breakpoints.down("sm")]: {
       fontSize: "0.5rem",
+      marginLeft: "110px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "20px",
+      fontSize: "0.4rem",
     },
   },
 }));

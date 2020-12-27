@@ -12,6 +12,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import ExitIcon from "@material-ui/icons/ExitToAppOutlined";
 import HowToRegOutlinedIcon from "@material-ui/icons/HowToRegOutlined";
 import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
+import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 
 import ProfileIcon from "@material-ui/icons/AccountCircleOutlined";
 
@@ -108,6 +109,13 @@ function AuthNavigationBottom() {
           style={{ paddingRight: "30px" }}
           label="logout"
           icon={<ExitIcon />}
+        />
+      </Link>
+      <Link to={"/explore"}>
+        <BottomNavigationAction
+          style={{ paddingRight: "30px" }}
+          label="logout"
+          icon={<SearchOutlinedIcon />}
         />
       </Link>
     </BottomNavigation>

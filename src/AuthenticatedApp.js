@@ -19,6 +19,8 @@ import { UserProfile } from "./components/UserProfile";
 import { SideBar } from "./components/SideBar";
 import { Register } from "./components/Register";
 import { NavigationBottom } from "./components/NavigationBottom";
+import { SearchBox } from "./components/SearchBox";
+import { Explore } from "./components/Explore";
 
 //mui
 import Grid from "@material-ui/core/Grid";
@@ -37,11 +39,6 @@ import { useHomeTweets } from "./utils/tweets";
 function AuthenticatedApp() {
   const location = useLocation();
 
-  const user = useUser("user");
-  //   const data = useHomeTweets("followTweets");
-
-  console.log("Authenticatedapp-user", user);
-
   //responsive dewsign notes-- Double grid design, main grid split in 2 with navigation and main section,
   //navigation has another grid system with 3grids nested to get good alignment (to the right) when shrinking viewport.
   //navigation.js also has responsive layout to hide text at breakpoint.
@@ -49,7 +46,7 @@ function AuthenticatedApp() {
     <div className="App">
       <Container>
         <Grid container spacing={3}>
-          <Hidden xsDown>
+          <Hidden mdDown>
             <Grid item xs={false} sm={2} md={2} lg={3}>
               <Container>
                 <Grid container>
@@ -63,7 +60,7 @@ function AuthenticatedApp() {
             </Grid>
           </Hidden>
 
-          <Grid item xs={12} sm={10} md={10} lg={9}>
+          <Grid item xs={12} sm={12} md={10} lg={9}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12} md={8} lg={8}>
                 <Switch>
@@ -75,27 +72,30 @@ function AuthenticatedApp() {
                     path="/:username/:tweetId"
                     component={TweetDetails}
                   />
-                  <Route
-                    exact
-                    path="/:username"
-                    component={UserProfile}
-                    key={location.pathname}
-                  />
+                  {location.pathname === "/explore" ? null : (
+                    <Route
+                      exact
+                      path="/:username"
+                      component={UserProfile}
+                      key={location.pathname}
+                    />
+                  )}
+
+                  <Route exact path="/explore" component={Explore} />
                 </Switch>
               </Grid>
 
-              <Hidden smDown>
+              <Hidden mdDown>
                 <Grid item sm={false} md={4} lg={4}>
                   <Route exact path={["/:username", "/:username/:id", "/"]}>
-                    <SideBar user={user} />
+                    <SearchBox />
+                    {location.pathname === "/explore" ? null : <SideBar />}
                   </Route>
                 </Grid>
               </Hidden>
             </Grid>
           </Grid>
-          <Hidden smUp>
-            <NavigationBottom />
-          </Hidden>
+          <Hidden lgUp>{<NavigationBottom />}</Hidden>
         </Grid>
       </Container>
     </div>

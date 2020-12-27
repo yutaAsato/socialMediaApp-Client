@@ -35,6 +35,7 @@ import { useClient } from "../utils/api-client";
 import { useAsync } from "../utils/hooks";
 import { useAuth } from "../contextAPI/authProvider";
 import { blue } from "@material-ui/core/colors";
+import { Card } from "@material-ui/core";
 
 //---------------------------------------
 
@@ -100,95 +101,97 @@ function AuthenticatedNav() {
   console.log("matchHome", matchHome);
   console.log("matchProfile", matchProfile);
   let drawer = (
-    <div>
-      <List className={classes.main}>
-        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-          <ListItem button selected={matchHome?.isExact ? true : false}>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <Hidden mdDown>
-              <ListItemText
-                className={classes.listText}
-                primary={"Home"}
-              ></ListItemText>
-            </Hidden>
+    <div style={{ paddingTop: "10px" }}>
+      <Card>
+        <List className={classes.main}>
+          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+            <ListItem button selected={matchHome?.isExact ? true : false}>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <Hidden mdDown>
+                <ListItemText
+                  className={classes.listText}
+                  primary={"Home"}
+                ></ListItemText>
+              </Hidden>
+            </ListItem>
+          </Link>
+
+          <Link
+            to={`/${user?.username}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <ListItem button selected={matchProfile?.isExact ? true : false}>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <Hidden mdDown>
+                <ListItemText
+                  classes={{ label: classes.listText }}
+                  primary="Profile"
+                />
+              </Hidden>
+            </ListItem>
+          </Link>
+
+          <NotificationsButton notifications={notifications} />
+
+          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+            <ListItem button onClick={logout}>
+              <ListItemIcon>
+                <ExitIcon />
+              </ListItemIcon>
+              <Hidden mdDown>
+                <ListItemText
+                  className={classes.listText}
+                  primary={`Log out @${user?.username}`}
+                />
+              </Hidden>
+            </ListItem>
+          </Link>
+
+          <Divider />
+
+          <ListItem className={classes.postTweet}>
+            <PostTweet />
           </ListItem>
-        </Link>
 
-        <Link
-          to={`/${user?.username}`}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <ListItem button selected={matchProfile?.isExact ? true : false}>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <Hidden mdDown>
-              <ListItemText
-                classes={{ label: classes.listText }}
-                primary="Profile"
-              />
-            </Hidden>
+          <ListItem
+            alignItems="flex-start"
+            className={classes.NavProfile}
+            style={{ paddingTop: "400px" }}
+          >
+            <ListItemAvatar>
+              <Avatar component="span">
+                <img
+                  alt=""
+                  src={`https://socialmedia-server.herokuapp.com/img/${
+                    user && user.username
+                  }? ${Date.now()}`}
+                  style={{ width: "200%", objectFit: "fill" }}
+                />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={user?.username}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    {/* {state.username} */}
+                  </Typography>
+                  @{user.username}
+                </React.Fragment>
+              }
+            />
           </ListItem>
-        </Link>
-
-        <NotificationsButton notifications={notifications} />
-
-        <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-          <ListItem button onClick={logout}>
-            <ListItemIcon>
-              <ExitIcon />
-            </ListItemIcon>
-            <Hidden mdDown>
-              <ListItemText
-                className={classes.listText}
-                primary={`Log out @${user?.username}`}
-              />
-            </Hidden>
-          </ListItem>
-        </Link>
-
-        <Divider />
-
-        <ListItem className={classes.postTweet}>
-          <PostTweet />
-        </ListItem>
-
-        <ListItem
-          alignItems="flex-start"
-          className={classes.NavProfile}
-          style={{ paddingTop: "400px" }}
-        >
-          <ListItemAvatar>
-            <Avatar component="span">
-              <img
-                alt=""
-                src={`https://socialmedia-server.herokuapp.com/img/${
-                  user && user.username
-                }? ${Date.now()}`}
-                style={{ width: "200%", objectFit: "fill" }}
-              />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={user?.username}
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  {/* {state.username} */}
-                </Typography>
-                @{user.username}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-      </List>
+        </List>
+      </Card>
     </div>
   );
   return <div className={classes.drawer}>{drawer}</div>;

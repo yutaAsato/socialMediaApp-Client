@@ -6,7 +6,16 @@ import { UserContext } from "../contextAPI/userContext";
 
 //---------------------------------------------------------
 
-// const apiURL = process.env.REACT_APP_API_URL
+let apiURL;
+if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+  apiURL = `http://localhost:3000`;
+  console.log("development mode");
+} else {
+  apiURL = `https://socialmedia-server.herokuapp.com`;
+  console.log("production");
+}
+
+//------------------------------------------------------------------------------
 
 //logout
 function useHandlelogOut() {
@@ -33,7 +42,7 @@ async function client(
   };
 
   return window
-    .fetch(`https://socialmedia-server.herokuapp.com/${endpoint}`, config)
+    .fetch(`${apiURL}/${endpoint}`, config)
     .then(async (response) => {
       if (response.status === 401) {
         queryCache.clear();

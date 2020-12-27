@@ -256,7 +256,7 @@ export function TweetDetails(props) {
   if (tweetDetails) {
     return (
       <>
-        <div>{tweetDetails}</div>
+        <div style={{ paddingTop: "10px" }}>{tweetDetails}</div>
         <div>{isFetchedAfterMount ? commentSection : <FullPageSpinner />}</div>
       </>
     );

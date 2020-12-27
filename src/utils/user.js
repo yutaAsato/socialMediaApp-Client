@@ -54,4 +54,15 @@ function useWhoToFollow(endPoint) {
   );
 }
 
-export { useUser, useRelevantUser, useWhoToFollow };
+function useAllUsers(endPoint) {
+  const client = useClient();
+  return useQuery(
+    {
+      queryKey: ["allUsers"],
+      queryFn: () => client(endPoint).then((data) => data),
+    }
+    // { refetchInterval: 1000 }
+  );
+}
+
+export { useUser, useRelevantUser, useWhoToFollow, useAllUsers };

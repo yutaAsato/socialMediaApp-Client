@@ -89,6 +89,32 @@ function usePostTweet(endPoint) {
   );
 }
 
+function useDeletePost(endPoint) {
+  const client = useClient();
+
+  return useMutation(
+    () => client(endPoint, { method: "POST" })
+    // {
+    //   onSettled: () => {
+    //     queryCache.invalidateQueries("user");
+    //   },
+    // }
+  );
+}
+
+function useDeleteNotification(endPoint) {
+  const client = useClient();
+
+  return useMutation(
+    (updates) => client(endPoint, { method: "POST", data: updates })
+    // {
+    //   onSettled: () => {
+    //     queryCache.invalidateQueries("user");
+    //   },
+    // }
+  );
+}
+
 export {
   useLike,
   usePostComment,
@@ -96,4 +122,6 @@ export {
   useMarkNotification,
   useFollowUnfollow,
   usePostTweet,
+  useDeletePost,
+  useDeleteNotification,
 };

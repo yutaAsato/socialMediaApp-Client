@@ -4,9 +4,6 @@ import "./index.css";
 import App from "./App";
 
 //contextAPI
-import { UserProvider } from "./contextAPI/userContext";
-
-import { AuthProvider } from "./contextAPI/authProvider";
 
 import { AppProviders } from "./contextAPI/app-providers";
 
