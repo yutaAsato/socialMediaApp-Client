@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[![login page]https://github.com/yutaAsato/socialMediaClone-Client/tree/master/docs
+[![login page]https://github.com/yutaAsato/socialMediaClone-Client/tree/master/docs]
 
 ## Available Scripts
 
