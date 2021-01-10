@@ -11,7 +11,7 @@ A Social Media Application to share and chat with family and friends. Client UI 
 
 [![Screen-Shot-2021-01-10-at-16-24-18.png](https://i.postimg.cc/x1XxVW5N/Screen-Shot-2021-01-10-at-16-24-18.png)](https://postimg.cc/QFrkpYRj)
 
- The home dashboard lets users see a list posts in chronological order from users they follow. The 'who to follow' section gives suggestions of other users to follow, this list is randomized on each rerender. The icon on the right side allows the user to click and follow or unfollow that user. The searchbox allows the user to search for a specific user, the search component has a matching feature where it will filter the list in real-time as the user inputs a search. It will show a drop down list of users who are in the database.
+ The home dashboard lets users see a list of posts in chronological order from users they follow. The 'who to follow' section gives suggestions of other users to follow, this list is randomized on each rerender. The icon on the right side allows the user to click and follow or unfollow that user. The searchbox allows the user to search for a specific user, the search component has a matching feature where it will filter the list in real-time as the user inputs a search. It will show a drop down list of users who are in the database.
  
  [![Screen-Shot-2021-01-10-at-18-04-34.png](https://i.postimg.cc/yYSB3Fdk/Screen-Shot-2021-01-10-at-18-04-34.png)](https://postimg.cc/7fDjpJSk)
 
