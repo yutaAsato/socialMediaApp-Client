@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[![login page] https://github.com/yutaAsato/socialMediaClone-Client/blob/master/docs/Screen%20Shot%202021-01-10%20at%2016.24.18.png
+[![login page] (https://github.com/yutaAsato/socialMediaClone-Client/blob/master/docs/Screen%20Shot%202021-01-10%20at%2016.24.18.png)
 ## Available Scripts
 
 In the project directory, you can run:
