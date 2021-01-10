@@ -4,6 +4,8 @@ A Social Media Application to share and chat with family and friends. The client
 
 NOTE: Initial load of application may take a few seconds as the backend Heroku web dynos need to awake from sleep.
 
+DEMO CREDENTIALS: email: admin, username: admin, password: 123
+
 
 ## Features
 
