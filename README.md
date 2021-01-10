@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Social Media Application
+
 [![Screen-Shot-2021-01-10-at-16-24-18.png](https://i.postimg.cc/x1XxVW5N/Screen-Shot-2021-01-10-at-16-24-18.png)](https://postimg.cc/QFrkpYRj)
 ## Available Scripts
 
