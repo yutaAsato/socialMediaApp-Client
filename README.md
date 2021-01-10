@@ -11,13 +11,17 @@ A Social Media Application to share and chat with family and friends. Client UI 
 
 [![Screen-Shot-2021-01-10-at-16-24-18.png](https://i.postimg.cc/x1XxVW5N/Screen-Shot-2021-01-10-at-16-24-18.png)](https://postimg.cc/QFrkpYRj)
 
- The home dashboard lets users see a list of posts in chronological order from users they follow. The 'who to follow' section gives suggestions of other users to follow, this list is randomized on each rerender. The icon on the right side allows the user to click and follow or unfollow that user. The searchbox allows the user to search for a specific user, the search component has a matching feature where it will filter the list in real-time as the user inputs a search. It will show a drop down list of users who are in the database.
+ The home dashboard lets users see a list of posts in chronological order from users they follow. Users can 'like' or 'comment' on other user's post. The 'who to follow' section gives suggestions of other users to follow, this list is randomized on each rerender. The icon on the right side allows the user to click and follow or unfollow that user. The searchbox allows the user to search for a specific user, the search component has a matching feature where it will filter the list in real-time as the user inputs a search. It will show a drop down list of users who are in the database.
  
  [![Screen-Shot-2021-01-10-at-18-04-34.png](https://i.postimg.cc/yYSB3Fdk/Screen-Shot-2021-01-10-at-18-04-34.png)](https://postimg.cc/7fDjpJSk)
  
  The 'profile' page shows information of a particular user including a bio, location and the number of followers and following. A list of all the users posts are also shown in chronological order. The 'edit detail' button will show if the current profile is the logged user's profile, this opens a modal when clicked and allows the user to edit the details and to upload or edit a profile picture.
  
  [![Screen-Shot-2021-01-10-at-18-15-02.png](https://i.postimg.cc/fTnsQVzX/Screen-Shot-2021-01-10-at-18-15-02.png)](https://postimg.cc/PN49mr8r)
+ 
+ The user will be routed to the 'post details' page when any post is clicked. This page will the post with like and comment count as well as a list of all the comment from other users. The right side section will change to a 'relevant user' component which allows the user to easily follow or unfollow the user currently being displayed.
+ 
+ [![Screen-Shot-2021-01-10-at-18-23-11.png](https://i.postimg.cc/mgdXynhj/Screen-Shot-2021-01-10-at-18-23-11.png)](https://postimg.cc/0zw08cYK)
 
 
 ## Available Scripts
