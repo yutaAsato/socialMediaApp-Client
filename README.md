@@ -7,7 +7,7 @@ A Social Media Application to share and chat with family and friends. Client UI 
 
 ## Features
 
-Login/Registration feature to sign up a new user or verify an existing user. Form validation is handled on the server side and authentication is handled using JWT (JSON Web Tokens) once a user has been verified. Bycrpt is used for password hashing, user data is then stored in a PostgreSQL database.
+ Login/Registration feature to sign up a new user or verify an existing user. Form validation is handled on the server side and authentication is handled using JWT   (JSON Web Tokens) once a user has been verified. Bycrpt is used for password hashing, user data is then stored in a PostgreSQL database.
 
 [![Screen-Shot-2021-01-10-at-16-24-18.png](https://i.postimg.cc/x1XxVW5N/Screen-Shot-2021-01-10-at-16-24-18.png)](https://postimg.cc/QFrkpYRj)
 ## Available Scripts
