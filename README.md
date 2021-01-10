@@ -2,6 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Social Media Application
 
+A Social Media Application to share and chat with family and friends. Client UI is built using React, asynchronous data and server state handling is managed using React-Query. REST API server is built with node.js which communicates with a PostgreSQL database.
+
 [![Screen-Shot-2021-01-10-at-16-24-18.png](https://i.postimg.cc/x1XxVW5N/Screen-Shot-2021-01-10-at-16-24-18.png)](https://postimg.cc/QFrkpYRj)
 ## Available Scripts
 
