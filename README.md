@@ -22,6 +22,11 @@ A Social Media Application to share and chat with family and friends. Client UI 
  The user will be routed to the 'post details' page when any post is clicked. This page will the post with like and comment count as well as a list of all the comment from other users. The right side section will change to a 'relevant user' component which allows the user to easily follow or unfollow the user currently being displayed.
  
  [![Screen-Shot-2021-01-10-at-18-23-11.png](https://i.postimg.cc/mgdXynhj/Screen-Shot-2021-01-10-at-18-23-11.png)](https://postimg.cc/0zw08cYK)
+ 
+ The user will receive a notification badge when another user has liked, commented or followed the user. When clicked a modal notifications list is displayed and the user can navigate to relevant notification url when clicked.
+ 
+ [![Screen-Shot-2021-01-10-at-18-33-16.png](https://i.postimg.cc/B6hVQQ1x/Screen-Shot-2021-01-10-at-18-33-16.png)](https://postimg.cc/LY1TxSDX)
+ [![Screen-Shot-2021-01-10-at-18-33-31.png](https://i.postimg.cc/Y2vHGJqp/Screen-Shot-2021-01-10-at-18-33-31.png)](https://postimg.cc/6TxSFbvS)
 
 
 ## Available Scripts
