@@ -71,15 +71,6 @@ export function Register(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
-  //errors
-  const [errors, setErrors] = useState({
-    errors: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      general: "",
-    },
-  });
 
   //redirect
   if (localStorage.jwt) {
@@ -111,7 +102,6 @@ export function Register(props) {
       password: password,
       confirmPassword: confirmPassword,
     };
-
     run(register(data));
 
     // const registerUser = async () => {
@@ -158,8 +148,8 @@ export function Register(props) {
             name="email"
             autoComplete="email"
             autoFocus
-            error={errors.errors.email ? true : false}
-            helperText={errors.errors.email}
+            error={error?.errors.email ? true : false}
+            helperText={error?.errors.email}
             onChange={handleEmail}
           />
           <TextField
@@ -172,8 +162,8 @@ export function Register(props) {
             name="username"
             autoComplete="username"
             autoFocus
-            error={errors.errors.username ? true : false}
-            helperText={errors.errors.username}
+            error={error?.errors.username ? true : false}
+            helperText={error?.errors.username}
             onChange={handleUsername}
           />
           <TextField
@@ -186,8 +176,8 @@ export function Register(props) {
             type="password"
             id="password"
             autoComplete="current-password"
-            error={errors.errors.password ? true : false}
-            helperText={errors.errors.password}
+            error={error?.errors.password ? true : false}
+            helperText={error?.errors.password}
             onChange={handlePassword}
           />
           <TextField
@@ -199,16 +189,16 @@ export function Register(props) {
             label="Confirm Password"
             type="password"
             id="Confirm password"
-            error={errors.errors.confirmPassword ? true : false}
-            helperText={errors.errors.confirmPassword}
+            error={error?.errors.confirmPassword ? true : false}
+            helperText={error?.errors.confirmPassword}
             onChange={handleConfirmPassword}
           />
 
           <Grid container alignItems="center">
             <Grid>
-              {errors.errors.general && (
+              {error?.errors.general && (
                 <Typography variant="body2" className={classes.customError}>
-                  {errors.errors.general}
+                  {error?.errors.general}
                 </Typography>
               )}
             </Grid>

@@ -74,14 +74,6 @@ export function LogIn(props) {
   //local state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //errors
-  const [errors, setErrors] = useState({
-    errors: {
-      email: "",
-      password: "",
-      general: "",
-    },
-  });
 
   //--contextAPI--------
   const [, dispatch] = useContext(UserContext);
@@ -136,8 +128,8 @@ export function LogIn(props) {
             name="email"
             autoComplete="email"
             autoFocus
-            error={errors.errors.email ? true : false}
-            helperText={errors.errors.email}
+            error={error?.errors.email ? true : false}
+            helperText={error?.errors.email}
             onChange={handleEmail}
           />
           <TextField
@@ -150,15 +142,15 @@ export function LogIn(props) {
             type="password"
             id="password"
             autoComplete="current-password"
-            error={errors.errors.password ? true : false}
-            helperText={errors.errors.password}
+            error={error?.errors.password ? true : false}
+            helperText={error?.errors.password}
             onChange={handlePassword}
           />
           <Grid container>
             <Grid>
-              {errors.errors.general && (
+              {error?.errors.general && (
                 <Typography variant="body2" className={classes.customError}>
-                  {errors.errors.general}
+                  {error?.errors.general}
                 </Typography>
               )}
             </Grid>
