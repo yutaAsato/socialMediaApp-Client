@@ -1,8 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Social Media Application
+## Social Media Web Application
 
-A Social Media Application to share and chat with family and friends. Client UI is built using React, asynchronous data and server state handling is managed using React-Query and the fetch API. The REST API server is built with node.js/express.js which connects with a PostgreSQL database.
+A Social Media Application to share and chat with family and friends. The client is deployed to Netlify and the server + databse are hosted on Heroku. The client UI is built using React, asynchronous data and server state handling is managed using React-Query and the fetch API. The REST API server is built with node.js/express.js which connects to a PostgreSQL database. Responsive design and styles handled with emotions library.
 
 
 ## Features
