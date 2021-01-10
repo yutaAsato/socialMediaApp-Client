@@ -27,6 +27,10 @@ A Social Media Application to share and chat with family and friends. Client UI 
  
  [![Screen-Shot-2021-01-10-at-18-33-16.png](https://i.postimg.cc/B6hVQQ1x/Screen-Shot-2021-01-10-at-18-33-16.png)](https://postimg.cc/LY1TxSDX)
  [![Screen-Shot-2021-01-10-at-18-33-31.png](https://i.postimg.cc/Y2vHGJqp/Screen-Shot-2021-01-10-at-18-33-31.png)](https://postimg.cc/6TxSFbvS)
+ 
+ The 'post' feature allows the user to make a post. There is a post button on the home dashboard which opens a modal box, users are also able to type and make a post at the top of the home dashboard section.
+ 
+ [![Screen-Shot-2021-01-10-at-18-38-45.png](https://i.postimg.cc/3whGWXXT/Screen-Shot-2021-01-10-at-18-38-45.png)](https://postimg.cc/87yc0rXK)
 
 
 ## Available Scripts
