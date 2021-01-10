@@ -2,7 +2,7 @@
 
 A Social Media Application to share and chat with family and friends. The client is deployed to Netlify and the server + databse are hosted on Heroku. The client UI is built using React, asynchronous data and server state handling is managed using React-Query and the fetch API. The REST API server is built with node.js/express.js which connects to a PostgreSQL database. Responsive design and styles handled with emotions library.
 
-NOTE: Initial load of application may take a few seconds as Heroku web dynos need to awake from sleep.
+NOTE: Initial load of application may take a few seconds as the backend Heroku web dynos need to awake from sleep.
 
 
 ## Features
