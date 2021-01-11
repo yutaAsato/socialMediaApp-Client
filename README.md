@@ -33,6 +33,12 @@ DEMO CREDENTIALS: Email Address: admin@gmail.com, Password: 123
  The 'post' feature allows the user to make a post. There is a post button on the home dashboard which opens a modal box, users are also able to type and make a post at the top of the home dashboard section.
  
  [![Screen-Shot-2021-01-10-at-18-38-45.png](https://i.postimg.cc/3whGWXXT/Screen-Shot-2021-01-10-at-18-38-45.png)](https://postimg.cc/87yc0rXK)
+ 
+ Responsive design. Bottom navigation bar when in mobile.
+ 
+ [![Screen-Shot-2021-01-11-at-12-34-03.png](https://i.postimg.cc/QCgg5WRR/Screen-Shot-2021-01-11-at-12-34-03.png)](https://postimg.cc/XBJy6XN8)
+ [![Screen-Shot-2021-01-11-at-12-34-19.png](https://i.postimg.cc/Y2NQdYsP/Screen-Shot-2021-01-11-at-12-34-19.png)](https://postimg.cc/Wt3D3Fjm)
+ [![Screen-Shot-2021-01-11-at-12-35-03.png](https://i.postimg.cc/028DFrgy/Screen-Shot-2021-01-11-at-12-35-03.png)](https://postimg.cc/14j8Nm5k)
 
 
 ## Available Scripts
