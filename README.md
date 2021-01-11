@@ -1,6 +1,6 @@
 ## Social Media Web Application
 
-A Social Media Application to share and chat with family and friends. The client is deployed to Netlify and the server + databse are hosted on Heroku. The client UI is built using React, asynchronous data and server state handling is managed using React-Query and the fetch API. UI state is managed with the Context API. The REST API server is built with node.js/express.js which connects to a PostgreSQL database. Responsive design and styles handled with emotions library.
+A POC Social Media Application to share and chat with family and friends. The client is deployed to Netlify and the server + databse are hosted on Heroku. The client UI is built using React, asynchronous data and server state handling is managed using React-Query and the fetch API. UI state is managed with the Context API. The REST API server is built with node.js/express.js which connects to a PostgreSQL database. Responsive design and styles handled with emotions library.
 
 NOTE: Initial load of application may take a few seconds as the backend Heroku web dynos need to awake from sleep.
 
