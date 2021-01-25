@@ -86,7 +86,7 @@ export function HomePostTweet() {
             <img
               alt=""
               src={`https://socialmedia-server.herokuapp.com/img/${loggedUser.user.username}`}
-              style={{ width: "150%", objectFit: "cover" }}
+              style={{ width: "200%", objectFit: "cover" }}
             />
           </Avatar>
           <TextField

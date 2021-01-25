@@ -73,21 +73,10 @@ function AuthNavigationBottom() {
   const loggedUser = useUser("user");
   const { user, relationships, notifications } = loggedUser;
 
-  //--contextAPI--------
-  const [state] = React.useContext(UserContext);
-
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
 
   return (
-    <BottomNavigation
-      // value={value}
-      // onChange={(event, newValue) => {
-      //   setValue(newValue);
-      // }}
-      // showLabels
-      className={classes.stickToBottom}
-    >
+    <BottomNavigation className={classes.stickToBottom}>
       <Link to="/" style={{ textDecoration: "none", color: "black" }}>
         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
       </Link>
@@ -96,10 +85,14 @@ function AuthNavigationBottom() {
         to={`/${user.username}`}
         style={{ textDecoration: "none", color: "black" }}
       >
-        <BottomNavigationAction label="Profile" icon={<ProfileIcon />} />
+        <BottomNavigationAction
+          label="Profile"
+          style={{ paddingRight: "30px" }}
+          icon={<ProfileIcon />}
+        />
       </Link>
       <BottomNavigationAction
-        style={{ paddingRight: "30px", paddingTop: "20px" }}
+        style={{ paddingRight: "50px", paddingTop: "20px" }}
         label="Profile"
         icon={<NotificationsButton notifications={notifications} />}
       />
@@ -113,7 +106,7 @@ function AuthNavigationBottom() {
       </Link>
       <Link to={"/explore"}>
         <BottomNavigationAction
-          style={{ paddingRight: "30px" }}
+          style={{ paddingRight: "41px" }}
           label="logout"
           icon={<SearchOutlinedIcon />}
         />

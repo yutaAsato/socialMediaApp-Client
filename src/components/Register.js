@@ -219,9 +219,7 @@ export function Register(props) {
           <Grid container></Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+      <Box mt={8}>{/* <Copyright /> */}</Box>
     </Container>
   );
 }

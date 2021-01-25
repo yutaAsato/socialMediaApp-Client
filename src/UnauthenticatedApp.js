@@ -36,6 +36,7 @@ function UnauthenticatedApp() {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12} md={8} lg={8}>
                 <Switch>
+                  <Route exact path="/" component={LogIn} />
                   <Route exact path="/login" component={LogIn} />
                   <Route exact path="/register" component={Register} />
                 </Switch>
