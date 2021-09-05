@@ -5,7 +5,7 @@ import { queryCache } from "react-query";
 import { UserContext } from "../contextAPI/userContext";
 
 //---------------------------------------------------------
-
+console.log("process.env.NODE_ENV =", process.env.NODE_ENV);
 let apiURL;
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
   apiURL = `http://localhost:3000`;
