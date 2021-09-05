@@ -7,9 +7,6 @@ import {
   useLocation,
 } from "react-router-dom";
 
-//contextAPI
-import { UserContext } from "./contextAPI/userContext";
-
 //components
 import { Home } from "./components/Home";
 import { LogIn } from "./components/Login";
@@ -26,13 +23,6 @@ import { Explore } from "./components/Explore";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Container from "@material-ui/core/Container";
-
-//utils/hooks
-import { useClient } from "./utils/api-client";
-
-//query
-import { useUser } from "./utils/user";
-import { useHomeTweets } from "./utils/tweets";
 
 //-------------------------------------------------
 
