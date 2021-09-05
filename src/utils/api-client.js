@@ -11,7 +11,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
   apiURL = `http://localhost:3000`;
   console.log("development mode");
 } else {
-  apiURL = `https://socialmedia-server.herokuapp.com`;
+  apiURL = `https://socialmedia-server-2021.herokuapp.com`;
   console.log("production");
 }
 
