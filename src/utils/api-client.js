@@ -7,11 +7,14 @@ import { UserContext } from "../contextAPI/userContext";
 //---------------------------------------------------------
 console.log("process.env.NODE_ENV =", process.env.NODE_ENV);
 let apiURL;
+
+// apiURL = `https://socialmedia-server-2021.herokuapp.com`;
+
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
   apiURL = `http://localhost:3000`;
   console.log("development mode");
 } else {
-  apiURL = `https://socialmedia-server-2021.herokuapp.com`;
+  apiURL = `https://socialmediaservernew.herokuapp.com`;
   console.log("production");
 }
 

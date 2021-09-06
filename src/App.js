@@ -18,7 +18,8 @@ function App() {
   const { data } = useAuth();
 
   const apiURL =
-    process.env.REACT_APP_API_URL || `https://socialmedia-server.herokuapp.com`;
+    process.env.REACT_APP_API_URL ||
+    `https://socialmedia-server-2021.herokuapp.com`;
 
   console.log(apiURL);
 
