@@ -17,12 +17,6 @@ const UnauthenticatedApp = React.lazy(() => import("./UnauthenticatedApp"));
 function App() {
   const { data } = useAuth();
 
-  const apiURL =
-    process.env.REACT_APP_API_URL ||
-    `https://socialmedia-server-2021.herokuapp.com`;
-
-  console.log(apiURL);
-
   return (
     <React.Suspense fallback={<FullPageSpinner />}>
       <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
